@@ -57,17 +57,39 @@ class Product : Object {
         return "id"
     }
     
-    func quantityOnHand() -> Int {
+    /*
+     * These versions use the map/reduce against agrregated collections - whihc is a valid way to do this computation
+     * However Realm provides a new nice convenience methods built right into its collections.
+     */
+    func quantityOnHandUsingMapReduce() -> Int {
         let realm = try! Realm()
         let transactions = realm.objects(Transaction.self).filter("productId = %@", self.id).map{$0.amount} // get all the amounts for the product as an array
         return transactions.reduce(0, +) // now sum them to get the QoH
     }
 
-    func quantitySold() -> Int {
+    func quantitySoldUsingMapReduce() -> Int {
         let realm = try! Realm()
         let transactions = realm.objects(Transaction.self).filter("productId = %@", self.id).map({$0.amount}).filter({$0 < 0}) // get only # sold (neg numbers) for the product
         return abs(transactions.reduce(0, +)) // now sum them (in this case the abs(sum of the reductions) to inventory) to get the qunat sold
     }
+    
+
+    /*
+     * These versions use the inherent Realm aggregation functions
+     */
+    func quantitySold() -> Int {
+        let realm = try! Realm()
+        let transactions = realm.objects(Transaction.self).filter("productId = %@ AND amount < 0", self.id) // get only # sold (neg numbers) for the product
+        return transactions.sum(ofProperty: "amount")
+    }
+
+    func quantityOnHand() -> Int {
+        let realm = try! Realm()
+        let transactions = realm.objects(Transaction.self).filter("productId = %@", self.id)
+        return transactions.sum(ofProperty: "amount")
+    }
+    
+    
 
     
     func hasTransactionHistory() -> Bool {

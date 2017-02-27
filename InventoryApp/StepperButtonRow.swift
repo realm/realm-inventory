@@ -61,7 +61,7 @@ open class StepperButtonCell : Cell<Double>, CellType {
         button.addTarget(self, action: #selector(StepperButtonCell.valueChanged), for: .touchUpInside)
         valueLabel.textColor = stepper.tintColor
         button.tintColor = stepper.tintColor
-        button.setTitle("Add", for: .normal)
+        button.setTitle(" Add  ", for: .normal)
         button.setTitleColor(stepper.tintColor, for: .normal)
         button.setTitleColor(.gray, for: .disabled)
 
@@ -83,7 +83,7 @@ open class StepperButtonCell : Cell<Double>, CellType {
         
         if stepper.value > 0 {
             button.isEnabled = true
-            button.setTitle("Add", for: .normal)
+            button.setTitle(" Add  ", for: .normal)
         } else if stepper.value == 0 {
             button.isEnabled = false
         } else if stepper.value < 0 {
