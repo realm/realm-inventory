@@ -164,6 +164,12 @@ class ProductDetailViewController: FormViewController {
                 }.onChange({ (row) in
                     self.quantityTmp  = row.value!
                 })
+
+                <<< StepperButtonRow() { row in
+                row.title = NSLocalizedString("Update Inventory", comment: "Add/Subtract")
+                row.value = 0
+
+        }
         return form
     }
     

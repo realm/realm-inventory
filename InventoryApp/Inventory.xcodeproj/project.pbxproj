@@ -22,6 +22,7 @@
 		8B8DB14A1E5FE5BB00D4AE0C /* InventoryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8DB1491E5FE5BB00D4AE0C /* InventoryModels.swift */; };
 		8B97E7DA1E61400400FDDCCA /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B97E7D91E61400400FDDCCA /* UserProfileTableViewController.swift */; };
 		8B97E7DC1E61E8FB00FDDCCA /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B97E7DB1E61E8FB00FDDCCA /* UIDevice+Extensions.swift */; };
+		8BAEF3FD1E640DCA003D6629 /* StepperButtonRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BAEF3FC1E640DCA003D6629 /* StepperButtonRow.swift */; };
 		8BC50C3D1E60F86700897FB6 /* ProductTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC50C3C1E60F86700897FB6 /* ProductTableCell.swift */; };
 		8BC50C3F1E60F8AD00897FB6 /* Image+Utilties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC50C3E1E60F8AD00897FB6 /* Image+Utilties.swift */; };
 		B1DB05B4C6B9ED0553AAF2EB /* Pods_InventoryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32841ECA91CA7420E77CFF5A /* Pods_InventoryTests.framework */; };
@@ -72,6 +73,7 @@
 		8B8DB1491E5FE5BB00D4AE0C /* InventoryModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryModels.swift; sourceTree = "<group>"; };
 		8B97E7D91E61400400FDDCCA /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewController.swift; sourceTree = "<group>"; };
 		8B97E7DB1E61E8FB00FDDCCA /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
+		8BAEF3FC1E640DCA003D6629 /* StepperButtonRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StepperButtonRow.swift; sourceTree = SOURCE_ROOT; };
 		8BC50C3C1E60F86700897FB6 /* ProductTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTableCell.swift; sourceTree = "<group>"; };
 		8BC50C3E1E60F8AD00897FB6 /* Image+Utilties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Image+Utilties.swift"; sourceTree = "<group>"; };
 		8CB689476DB58A054D983B86 /* Pods-Inventory.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Inventory.release.xcconfig"; path = "Pods/Target Support Files/Pods-Inventory/Pods-Inventory.release.xcconfig"; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 		8B2984271E5E8837005C443E /* Inventory */ = {
 			isa = PBXGroup;
 			children = (
+				8BAEF3FC1E640DCA003D6629 /* StepperButtonRow.swift */,
 				8B97E7DB1E61E8FB00FDDCCA /* UIDevice+Extensions.swift */,
 				8B2984281E5E8837005C443E /* AppDelegate.swift */,
 				8B29842F1E5E8837005C443E /* Assets.xcassets */,
@@ -476,6 +479,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8BAEF3FD1E640DCA003D6629 /* StepperButtonRow.swift in Sources */,
 				8B29842B1E5E8837005C443E /* ProductsTableViewController.swift in Sources */,
 				8B37FE1D1E60EDBD00D3B9D4 /* SortOptionsTableViewController.swift in Sources */,
 				8BC50C3D1E60F86700897FB6 /* ProductTableCell.swift in Sources */,
