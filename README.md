@@ -91,6 +91,16 @@ Products can be viewd across a number of dimensions - tapping the sort menu in t
 
 <center> <img src="/Graphics/Inventory-Products-SortMenu.png" width="310" height="552" /></center><br>
 
+### The Barcode Scanner & Product Detail Entry
+
+In order to use thje barcde scanner buit in to Inventory, you must give permission for the Inventry app to access the iOS device's camera:
+
+<center> <img src="/Graphics/Inventory-Camera-Permissions.png" width="310" height="552" /></center>Camera Permission Request<br>
+
+However, if you are running this application in the OS simulator under Xcode, there is no camera to access.  You will need to enter product UPC codes by hand when using the simulator:
+
+<center> <img src="/Graphics/Inventory-Barcode-Simulator-Warning.png" width="310" height="552" /></center>Simulator Warning<br>
+
 # New Product Creation
 A new product can be entered into Inventory in 2 ways:
 
@@ -101,15 +111,6 @@ A new product can be entered into Inventory in 2 ways:
   <center> <img src="/Graphics/Inventory-Scancode-Not-Found.png" width="310" height="552" /></center>Scancode Not Found<br>
 
 
-### The Barcode Scanner & Product Detail Entry
-
-In order to use thje barcde scanner buit in to Inventory, you must give permission for the Inventry app to access the iOS device's camera:
-
-<center> <img src="/Graphics/Inventory-Camera-Permissions.png" width="310" height="552" /></center>Camera Permission Request<br>
-
-However, if you are running this application in the OS simulator under Xcode, there is no camera to access.  You will need to enter product UPC codes by hand when using the simulator:
-
-<center> <img src="/Graphics/Inventory-Barcode-Simulator-Warning.png" width="310" height="552" /></center>Simulator Warning<br>
 
 
 
@@ -176,10 +177,10 @@ Here we see there several products - (product ID's 1,2 3 and 5) each with severa
 If we highlght just the acivity for product 1, we can see quickly where this goes - adding up the amounts of all the transactions tells use the current quanrtity on-hand of product #1.  This is a very safe way to implement a tranction safe coiunting system.  It also has the ability to allow us to creatre a rich system where we can add more color (metadata) to our inventory system (like the ID of who sold what, what store or region did gets credit for a sale, etc).
 <center> <img src="/Graphics/Inventory-Transaction-log-highlighted.png"/></center><br>
 
-Of course this does frequire a lot more storage and a more interaction with the server. Another way to implement the same functionality is with transaction safe counters
+Of course this does require a lot more storage and a more interaction with the server. Another way to implement the same functionality is with transaction safe counters
 
 #### Method 2: Counters
 TBS: Describe Realm Counters here...
 
 ### Conclusion
-TBD: describe how using counters _and_ lisrts enable a traditional double-entry accounting system that can be used for more than just simple inventory tracking...
+TBD: describe how using counters _and_ lists enable a traditional double-entry accounting system that can be used for more than just simple inventory tracking...
