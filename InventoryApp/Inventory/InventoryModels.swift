@@ -70,6 +70,12 @@ class Product : Object {
     }
 
     
+    func hasTransactionHistory() -> Bool {
+        let realm = try! Realm()
+        return realm.objects(Transaction.self).filter("productId = %@", self.id).count > 0
+    }
+
+    
     /**
      * get total quantity sold between the specified dates, or if only a start date, from the start date to the present
      * @returns The return value is an array of dictionaries representing the values for each date in the range.

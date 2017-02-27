@@ -61,22 +61,47 @@ class ProductDetailViewController: FormViewController {
         }
         else {
             product = realm.objects(Product.self).filter("id = %@", productId!).first
-            let rightButton = UIBarButtonItem(title: NSLocalizedString("Edit", comment: "Edit"), style: .plain, target: self, action: #selector(SavePressed))
+            let rightButton = UIBarButtonItem(title: NSLocalizedString("Edit", comment: "Edit"), style: .plain, target: self, action: #selector(EditTaskPressed))
             self.navigationItem.rightBarButtonItem = rightButton
 
         }
 
         
-        form +++ Section(NSLocalizedString("Product Detail Information", comment: "Product Detail Information"))
-            <<< TextRow(){ row in
+        if self.newProductMode == false {
+            // if the redcord already exitrs, we need a stepper row in order to add or remove items in as transaction
+        }
+
+        // Do any additional setup after loading the view.
+       form = createForm(editable: formIsEditable(), product: product)
+
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    // MARK: Form Utilities
+    func createForm(editable: Bool, product: Product?) -> Form {
+        
+        let form = Form()
+            form +++ Section(NSLocalizedString("Product Detail Information", comment: "Product Detail Information"))
+            <<< TextRow(NSLocalizedString("Product ID", comment:"Product ID")) { row in
                 row.title = NSLocalizedString("Product ID", comment:"Product ID")
-                row.placeholder = "(UPC code here)"
+                row.tag = "Product ID"
                 if self.product!.id != "" {
                     row.value = self.product!.id
                 }
-            }.onChange({ (row) in
-                self.product?.id = row.value!
-            })
+                if editable == false {
+                    row.disabled = true
+                }
+                }.cellSetup { cell, row in
+                    cell.textField.placeholder = NSLocalizedString("(Enter UPC code)", comment:"Enter UPC code")
+                }.onChange({ (row) in
+                    self.product?.id = row.value!
+                })
+            
             <<< ImageRow() { row in
                 row.title = NSLocalizedString("Profile Image", comment: "profile image")
                 row.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum, .Camera]
@@ -100,21 +125,30 @@ class ProductDetailViewController: FormViewController {
                         }
                     }
                 })
+            
             <<< TextRow(){ row in
                 row.title = NSLocalizedString("Product Name", comment:"Product Name")
                 row.placeholder = "Acme RoadRunner Food"
                 if self.product!.productName != "" {
                     row.value = self.product!.productName
                 }
+                if editable == false {
+                    row.disabled = true
+                }
                 }.onChange({ (row) in
                     self.product?.productName = row.value!
                 })
+            
             <<< TextRow(){ row in
                 row.value = self.product?.productDescription
                 row.placeholder = NSLocalizedString("Product Description", comment: "description")
-            }.onChange({ (row) in
-                self.product?.productDescription = row.value!
-            })
+                if editable == false {
+                    row.disabled = true
+                }
+                }.onChange({ (row) in
+                    self.product?.productDescription = row.value!
+                })
+            
             <<< IntRow(){ row in
                 if self.newProductMode == true {
                     row.title = NSLocalizedString("Initial Quantity", comment:"Initial Quantity on Hand")
@@ -124,28 +158,44 @@ class ProductDetailViewController: FormViewController {
                     row.placeholder = NSLocalizedString("No stock", comment: "initial quantity")
                 }
                 row.value = self.product!.quantityOnHand()
-            }.onChange({ (row) in
-                self.quantityTmp  = row.value!
-            })
-        
-        
-        if self.newProductMode == false {
-            // if the redcord already exitrs, we need a stepper row in order to add or remove items in as transaction
-        }
-
-        // Do any additional setup after loading the view.
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+                if editable == false || self.product!.hasTransactionHistory() == true { // if there's a transaction history, don't allow editing of QoH
+                    row.disabled = true
+                }
+                }.onChange({ (row) in
+                    self.quantityTmp  = row.value!
+                })
+        return form
     }
     
+    
+    
+    func formIsEditable() -> Bool {
+        if newProductMode || editMode {
+            return true
+        }
+        return false
+    }
+
     // MARK: Actions
     @IBAction func BackCancelPressed(sender: AnyObject) {
-        // need to unwind from the segue
-        self.navigationController?.popViewController(animated: true)
+        // Unwind/pop from the segue
+        _ = self.navigationController?.popViewController(animated: true)
     }
+    
+    @IBAction func EditTaskPressed(sender: AnyObject) {
+        print("Edit Tasks Pressed")
+        if editMode == true {
+            //we're here becuase the user clicked edit (which now says "save") ... so we're going to save the record with whatever they've changed
+            self.SavePressed(sender: self)
+            editMode = false
+        } else {
+            self.navigationItem.rightBarButtonItem?.title = NSLocalizedString("Save", comment: "Save")
+            editMode = true
+            
+            form = createForm(editable: formIsEditable(), product: product)
+        }
+    }
+    
     
     
     @IBAction func SavePressed(sender: AnyObject) {
@@ -170,8 +220,8 @@ class ProductDetailViewController: FormViewController {
             }
             
         }
-        // need to unwind from the segue
-        self.navigationController?.popViewController(animated: true)
+        // Unwind/pop from the segue
+       _ = self.navigationController?.popViewController(animated: true)
     }
     
 
