@@ -106,6 +106,10 @@ class ProductDetailViewController: FormViewController {
                 row.title = NSLocalizedString("Profile Image", comment: "profile image")
                 row.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum, .Camera]
                 row.clearAction = .yes(style: UIAlertActionStyle.destructive)
+                if editable == false {
+                    row.disabled = true
+                }
+
                 }.cellSetup({ (cell, row) in
                     
                     if self.product!.image == nil {
