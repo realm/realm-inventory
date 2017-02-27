@@ -11,6 +11,7 @@ import UIKit
 import Eureka
 import ImageRow
 import RealmSwift
+import BRYXBanner
 
 
 extension String {
@@ -153,27 +154,73 @@ class ProductDetailViewController: FormViewController {
                     self.product?.productDescription = row.value!
                 })
             
-            <<< IntRow(){ row in
-                if self.newProductMode == true {
-                    row.title = NSLocalizedString("Initial Quantity", comment:"Initial Quantity on Hand")
-                    row.placeholder = NSLocalizedString("initial quantity", comment: "initial quantity")
-                } else {
-                    row.title = NSLocalizedString("Quantity on Hand", comment:"Quantity on Hand")
-                    row.placeholder = NSLocalizedString("No stock", comment: "initial quantity")
-                }
-                row.value = self.product!.quantityOnHand()
-                if editable == false || self.product!.hasTransactionHistory() == true { // if there's a transaction history, don't allow editing of QoH
-                    row.disabled = true
-                }
-                }.onChange({ (row) in
-                    self.quantityTmp  = row.value!
-                })
+                <<< IntRow(){ row in
+                    row.tag = "QuantityOnHandRow"
+                    if self.newProductMode == true {
+                        row.title = NSLocalizedString("Initial Quantity", comment:"Initial Quantity on Hand")
+                        row.placeholder = NSLocalizedString("initial quantity", comment: "initial quantity")
+                    } else {
+                        row.title = NSLocalizedString("Quantity on Hand", comment:"Quantity on Hand")
+                        row.placeholder = NSLocalizedString("No stock", comment: "initial quantity")
+                    }
+                    if editable == false || self.product!.hasTransactionHistory() == true { // if there's a transaction history, don't allow editing of QoH
+                        row.disabled = true
+                    }
+                    }.cellUpdate({ (cell , row) in
+                        row.value = self.product!.quantityOnHand()
+                        row.reload()
+                    })
+                    .onChange({ (row) in
+                        self.quantityTmp  = row.value!
+                    })
+                
+                +++ Section(NSLocalizedString("Inventory Change Transaction", comment: "Inventory Change"))
+                <<< StepperRow("Add or Subtract Items") { row in
+                    row.tag = "quantityStepper"
+                    row.title = NSLocalizedString("Add/Subtract", comment: "Add/Subtract")
+                    }.cellSetup({ (cell, row) in
+                        cell.stepper.minimumValue = -(Double)(UINT64_MAX)
+                    })
+                    .onChange({ (row) in
+                        let actionButtonRow = form.rowBy(tag: "AddRemoveButton") as! ButtonRow
+                        let qohRow = form.rowBy(tag: "QuantityOnHandRow") as! IntRow
+                        
+                        if row.value! < 0 {
+                            actionButtonRow.disabled = false
+                            actionButtonRow.title = NSLocalizedString("Subtract Quantity", comment: "Add")
+                        } else if row.value! == 0{
+                            actionButtonRow.disabled = true
+                            actionButtonRow.title = NSLocalizedString("", comment: "Add")
+                        } else if row.value! > 0 {
+                            actionButtonRow.disabled = true
+                            actionButtonRow.title = NSLocalizedString("Add Quantity", comment: "Add")
+                        }
+                        // However if we're removing items and the result of the requested change would be more 
+                        // would be more than the quantity on hand (QoH), clamp the value at the QoH
+                        if  row.value! < 0 && (Int(qohRow.value!) - abs(Int(row.value!)) < 0) {
+                            row.value! = Double(qohRow.value!) * -1
+                        }
+                        
+                        actionButtonRow.updateCell()
+                    })
+                <<< ButtonRow() { row in
+                    row.tag = "AddRemoveButton"
+                    row.title = ""
+                    }.onCellSelection({ (cell, row)  in
+                        let stepper = form.rowBy(tag: "quantityStepper") as! StepperRow
+                        let qohRow = form.rowBy(tag: "QuantityOnHandRow") as! IntRow
 
-                <<< StepperButtonRow() { row in
-                row.title = NSLocalizedString("Update Inventory", comment: "Add/Subtract")
-                row.value = 0
-
-        }
+                        if stepper.value != 0 { // belt & suspenders check - don't want zero-value transactions
+                            self.product!.addTransaction(quantity: Int(stepper.value!), userIdentity: SyncUser.current!.identity!) // push the transaction
+                            let banner = Banner(title: "Inventory Update Successful", subtitle: "Registered change of \(Int(stepper.value!)) item(s).", image: UIImage(named: "Icon"), backgroundColor: UIColor(red:48.00/255.0, green:174.0/255.0, blue:51.5/255.0, alpha:1.000))
+                            banner.dismissesOnTap = true
+                            banner.show(duration: 3.0)
+                            stepper.value = 0
+                            stepper.updateCell() // forces the stepper to update to zero
+                            qohRow.updateCell() // forces the quantity on Hand to redisplay
+                            
+                        }
+                    })
         return form
     }
     
@@ -220,13 +267,13 @@ class ProductDetailViewController: FormViewController {
             }
             rlm.add(self.product!, update: true)
             if self.newProductMode == true && self.quantityTmp > 0 {
-                let transaction = Transaction()
-                transaction.transactionDate = Date()
-                transaction.transactedBy = SyncUser.current!.identity!
-                transaction.productId = self.product!.id
-                transaction.amount = self.quantityTmp
-                
-                rlm.add(transaction, update: true)
+                self.product?.addTransaction(quantity: self.quantityTmp, userIdentity: SyncUser.current!.identity!)
+                //let transaction = Transaction()
+                //transaction.transactionDate = Date()
+                //transaction.transactedBy = SyncUser.current!.identity!
+                //transaction.productId = self.product!.id
+                //transaction.amount = self.quantityTmp
+                //rlm.add(transaction, update: true)
             }
             
         }

@@ -14,6 +14,8 @@ pod 'ImageRow', '~> 1.0'
 pod 'PermissionScope', :git => 'https://github.com/nickoneill/PermissionScope.git'
 pod 'BarcodeScanner'
 pod 'ImagePicker'
+pod 'BRYXBanner', '~> 0.7.1'
+
 
 
   target 'InventoryTests' do

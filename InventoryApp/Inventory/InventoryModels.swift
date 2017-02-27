@@ -58,7 +58,7 @@ class Product : Object {
     }
     
     /*
-     * These versions use the map/reduce against agrregated collections - whihc is a valid way to do this computation
+     * These versions use the map/reduce against agrregated collections - which is a valid way to do this computation
      * However Realm provides a new nice convenience methods built right into its collections.
      */
     func quantityOnHandUsingMapReduce() -> Int {
@@ -91,6 +91,21 @@ class Product : Object {
     
     
 
+    func addTransaction(quantity: Int, userIdentity: String) {
+        let rlm = try! Realm()
+        try! rlm.write {
+            if quantity != 0 {
+                let transaction = Transaction()
+                transaction.transactionDate = Date()
+                transaction.transactedBy = userIdentity
+                transaction.productId = self.id
+                transaction.amount = quantity
+                rlm.add(transaction, update: true)
+            }
+            
+        }
+
+    }
     
     func hasTransactionHistory() -> Bool {
         let realm = try! Realm()
@@ -154,11 +169,13 @@ class Transaction : Object {
     dynamic var id = NSUUID().uuidString    // every transaction is unique but the person doing it, the products and amounts, of course are not
     dynamic var transactionDate: Date?
     dynamic var transactedBy = ""           // a Realm SyncUser.identity
-    dynamic var productId = ""              // the product this referes ti
+    dynamic var productId = ""              // the product this referes to
     dynamic var amount = 0                  // positive = inventory addition, negative == sale or inventory reduction
     
     // Initializers, accessors & cet.
     override static func primaryKey() -> String? {
         return "id"
     }
+    
+    
 }
