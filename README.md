@@ -120,10 +120,12 @@ Adding a product image to your inventory record:
 
 
 
-If a product you scanned is _already_ int he inventory system, it will be displayed:
+If a product you scanned is _already_ in the inventory system, it will be displayed:
 <center> <img src="/Graphics/Inventory-NewProduct-Scanned.png" width="310" height="552" /></center>Successful Scan<br>
 
+## Other Ways to Search
 
+The main products view also supports a search bar that will allow search to be done for any of the product item fields.
 
 # Settings / Profile
 
