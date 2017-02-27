@@ -154,7 +154,7 @@ Let's look at a transaction log for a few hypothetical products:
 
 Here we see there several products - (product ID's 1,2 3 and 5) each with several additions or removals (sales)  from the inventory.
 
-IOf we highlght just the acivity for product 1, we can see quickly where this goes - adding up the amounts of all the transactions tells use the current quanrtity on-hand of product #1.  This is a very safe way to implement a tranction safe coiunting system.  It also has the ability to allow us to creatre a rich system where we can add more color (metadata) to our inventory system (like the ID of who sold what, what store or region did gets credit for a sale, etc).
+If we highlght just the acivity for product 1, we can see quickly where this goes - adding up the amounts of all the transactions tells use the current quanrtity on-hand of product #1.  This is a very safe way to implement a tranction safe coiunting system.  It also has the ability to allow us to creatre a rich system where we can add more color (metadata) to our inventory system (like the ID of who sold what, what store or region did gets credit for a sale, etc).
 <center> <img src="/Graphics/Inventory-Transaction-log-highlighted.png"/></center><br>
 
 Of course this does frequire a lot more storage and a more interaction with the server. Another way to implement the same functionality is with transaction safe counters
