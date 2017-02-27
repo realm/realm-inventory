@@ -1,0 +1,49 @@
+PODS:
+  - BarcodeScanner (2.0.0)
+  - Eureka (2.0.1)
+  - ImagePicker (2.0.0)
+  - ImageRow (1.0.0):
+    - Eureka (~> 2.0.0-beta.1)
+  - PermissionScope (1.1.1)
+  - Realm (2.4.3):
+    - Realm/Headers (= 2.4.3)
+  - Realm/Headers (2.4.3)
+  - RealmLoginKit (0.0.9):
+    - Realm
+    - TORoundedTableView
+  - RealmSwift (2.4.3):
+    - Realm (= 2.4.3)
+  - TORoundedTableView (0.0.3)
+
+DEPENDENCIES:
+  - BarcodeScanner
+  - Eureka (~> 2.0.0-beta.1)
+  - ImagePicker
+  - ImageRow (~> 1.0)
+  - PermissionScope (from `https://github.com/nickoneill/PermissionScope.git`)
+  - RealmLoginKit
+  - RealmSwift
+
+EXTERNAL SOURCES:
+  PermissionScope:
+    :git: https://github.com/nickoneill/PermissionScope.git
+
+CHECKOUT OPTIONS:
+  PermissionScope:
+    :commit: b2469e24bca52f14b3af6a19ac8d83abb0c29708
+    :git: https://github.com/nickoneill/PermissionScope.git
+
+SPEC CHECKSUMS:
+  BarcodeScanner: 266ab4b479d407b74bc4b473fa5020b4523ad9e3
+  Eureka: ae837bb1dfae0c07bc1bda7aeef87876eeb537c2
+  ImagePicker: 81175d36c2852cb543cb4f5d6c19e28f3e8d90eb
+  ImageRow: 1e37db26f61a0c4ad3bc9a3a803c32d968782857
+  PermissionScope: a30c16e015779ba27c97c124e7539e27b5829de2
+  Realm: e08d60b0048ccccd3949c8c28a92c4db5712d7e9
+  RealmLoginKit: 917fe20a4134370ee95d6e861c48cf9c64f20318
+  RealmSwift: 30d49739ccb3385d201242736ca4dda56aec9dfc
+  TORoundedTableView: 4155565233135d81d6626a0c4ecfba27991cf2b1
+
+PODFILE CHECKSUM: 5718acf1e58c38ee15a185ad1b3a79461eaf9eb0
+
+COCOAPODS: 1.2.0
