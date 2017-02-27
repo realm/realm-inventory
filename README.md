@@ -1,20 +1,10 @@
 # Inventory
 ## A Realm Mobile Platform Example Application
 
-<center> <img src="/Graphics/Inventory-Product-Listing.png" width="310" height="552" /></center><br>
-<center> <img src="/Graphics/Inventory-Products-SortMenu.png" width="310" height="552" /></center><br>
-<center> <img src="/Graphics/Inventory-Settings.png" width="310" height="552" /></center><br>
-
-
-
-<center> <img src="/Graphics/Inventory-TakePhoto.png" width="310" height="552" /></center><br>
 
 ## Intro
 
-This is an app designed to showcase a larger-scale collaborative example using the Realm Mobile Platform (RMP) and the Realm Object Server (ROS).
-
-### Overview
-This app is a simple implementation of an inventory tracking system designed to show 2 different ways that
+This app is a simple implementation of an idealized inventory tracking system designed to show 2 different ways that transaction safe counters can be implemented.
 
 # Installation
 
@@ -30,7 +20,6 @@ This application demonstrates features of the [Realm Mobile Platform](http://lre
 ### 3rd Party Modules
 
 The following modules will be installed as part of the Cocoapods setup:
-
 
 - [BarcodeScanner](https://github.com/hyperoslo/BarcodeScanner) an elegant barcode scanner module for iOS
 
@@ -96,27 +85,53 @@ TBD
 <!-- <center> <img src="/Graphics/Fieldwork-permissions.png" width="310" height="552" /><br/>Permissions</center><br>  -->
 
 ### The Products View
-
 <center> <img src="/Graphics/Inventory-Product-Listing.png" width="310" height="552" /><br/>Product Listing</center><br>
 
+Products can be viewd across a number of dimensions - tapping the sort menu in the upper-left corner of the products view will bring up the sort options menu, and tapping the arrow immeidately to the right will chnage the sorting direction
 
-# The Barcode Scanner & Product Detail Entry
-
-The task list shows the tasks assigned to a given field worker, or, if the user has the "manager" role, then all tasks will be displayed.  Tapping on a tasks will reveal the task detail screen.  Managers (as shown here) have the ability to edit tasks by tapping the "Edit" button.
-
-<center> <img src="/Graphics/Inventory-Camera-Permissions.png" width="310" height="552" /></center>Camera Permission Request<br>
-<center> <img src="/Graphics/Inventory-Barcode-Simulator-Warning.png" width="310" height="552" /></center>Simulator Warning<br>
-<center> <img src="/Graphics/Inventory-Barcode-Scanning.png" width="310" height="552" /></center>Barcode Scanning<br>
-<center> <img src="/Graphics/Inventory-NewProduct-Scanned.png" width="310" height="552" /></center>Successful Scan<br>
+<center> <img src="/Graphics/Inventory-Products-SortMenu.png" width="310" height="552" /></center><br>
 
 # New Product Creation
 A new product can be entered into Inventory in 2 ways:
 
   - tapping the "+" button on the product listing screen. This will bring up an empty form that can be filled in
-  - Scanning a barcode - if the (UPC) scan code is not currently represented in the products
+  - <center> <img src="/Graphics/Inventory-New-Product.png" width="310" height="552" /></center><br>
+
+  - Scanning a barcode - if the (UPC) scan code is not currently represented in the products:
   <center> <img src="/Graphics/Inventory-Scancode-Not-Found.png" width="310" height="552" /></center>Scancode Not Found<br>
 
-<center> <img src="/Graphics/Inventory-New-Product.png" width="310" height="552" /></center><br>
+
+### The Barcode Scanner & Product Detail Entry
+
+In order to use thje barcde scanner buit in to Inventory, you must give permission for the Inventry app to access the iOS device's camera:
+
+<center> <img src="/Graphics/Inventory-Camera-Permissions.png" width="310" height="552" /></center>Camera Permission Request<br>
+
+However, if you are running this application in the OS simulator under Xcode, there is no camera to access.  You will need to enter product UPC codes by hand when using the simulator:
+
+<center> <img src="/Graphics/Inventory-Barcode-Simulator-Warning.png" width="310" height="552" /></center>Simulator Warning<br>
+
+
+
+The task list shows the tasks assigned to a given field worker, or, if the user has the "manager" role, then all tasks will be displayed.  Tapping on a tasks will reveal the task detail screen.  Managers (as shown here) have the ability to edit tasks by tapping the "Edit" button.
+
+
+<center> <img src="/Graphics/Inventory-Barcode-Scanning.png" width="310" height="552" /></center>Barcode Scanning<br>
+
+
+Addfing a product image to your inventory record:
+
+<center> <img src="/Graphics/Inventory-TakePhoto.png" width="310" height="552" /></center><br>
+
+
+If a product you scanned is _already_ int he inventory system, it will be displayed:
+<center> <img src="/Graphics/Inventory-NewProduct-Scanned.png" width="310" height="552" /></center>Successful Scan<br>
+
+
+
+# Settings / Profile
+
+<center> <img src="/Graphics/Inventory-Settings.png" width="310" height="552" /></center><br>
 
 
 # Application Architecture
@@ -132,7 +147,11 @@ A new product can be entered into Inventory in 2 ways:
 
 ### Transaction Model
 
-  - Transactions are very simple using the product ID and indicates amounts added to (positive numbers) or removed (negative numbers) from our inventory as well as the ID of which user performed the transaction.
+  - Transactions are very simple, the contain:
+  - A product ID
+  - An amount added to (positive numbers) or removed (negative numbers) from our inventory as well as the ID of which user performed the transaction.
+  - A user ID indicating who performed the transaction
+  - A date to record when this transaciton occurred
 
 ## Person Model
 
