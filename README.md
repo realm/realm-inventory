@@ -108,20 +108,15 @@ A new product can be entered into Inventory in 2 ways:
   - <center> <img src="/Graphics/Inventory-New-Product.png" width="310" height="552" /></center><br>
 
   - Scanning a barcode - if the (UPC) scan code is not currently represented in the products:
+
+  <center> <img src="/Graphics/Inventory-Barcode-Scanning.png" width="310" height="552" /></center>Barcode Scanning<br>
+
+
+If the product is not yet in the system yoiuy are given the option to add it:
   <center> <img src="/Graphics/Inventory-Scancode-Not-Found.png" width="310" height="552" /></center>Scancode Not Found<br>
 
 
-
-
-
-The task list shows the tasks assigned to a given field worker, or, if the user has the "manager" role, then all tasks will be displayed.  Tapping on a tasks will reveal the task detail screen.  Managers (as shown here) have the ability to edit tasks by tapping the "Edit" button.
-
-
-<center> <img src="/Graphics/Inventory-Barcode-Scanning.png" width="310" height="552" /></center>Barcode Scanning<br>
-
-
-Addfing a product image to your inventory record:
-
+Adding a product image to your inventory record:
 <center> <img src="/Graphics/Inventory-TakePhoto.png" width="310" height="552" /></center><br>
 
 
