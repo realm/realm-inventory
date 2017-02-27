@@ -28,7 +28,7 @@ class InventoryLoginViewController: UIViewController {
             setDefaultRealmConfigurationWithUser(user: SyncUser.current!, hostname: self.loginViewController.serverURL!)
 
             // We need to set global read/write for this top-level Realm; this can fail, and it's OK.
-            setupDefaultGlobalPermissions(user: SyncUser.current, forURL: self.loginViewController.serverURL!)
+            setupDefaultGlobalPermissions(user: SyncUser.current, forURL: syncServerURL(hostname: self.loginViewController.serverURL!).absoluteString)
 
             performSegue(withIdentifier: "loginToMainView", sender: self)
         } else {
@@ -58,9 +58,9 @@ class InventoryLoginViewController: UIViewController {
     func setupDefaultGlobalPermissions(user: SyncUser?, forURL url: String) {
         
         let managementRealm = try! user!.managementRealm()
-        let theURL = url
+       // let theURL = url
         
-        let permissionChange = SyncPermissionChange(realmURL: theURL,    // The remote Realm URL on which to apply the changes
+        let permissionChange = SyncPermissionChange(realmURL: url,    // The remote Realm URL on which to apply the changes
             userID: "*",       // The user ID for which these permission changes should be applied
             mayRead: true,     // Grant read access
             mayWrite: true,    // Grant write access
