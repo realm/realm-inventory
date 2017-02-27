@@ -87,13 +87,13 @@ TBD
 ### The Products View
 <center> <img src="/Graphics/Inventory-Product-Listing.png" width="310" height="552" /><br/>Product Listing</center><br>
 
-Products can be viewd across a number of dimensions - tapping the sort menu in the upper-left corner of the products view will bring up the sort options menu, and tapping the arrow immeidately to the right will chnage the sorting direction
+Products can be viewed across a number of dimensions - tapping the sort menu in the upper-left corner of the products view will bring up the sort options menu, and tapping the arrow immeidately to the right will chnage the sorting direction
 
 <center> <img src="/Graphics/Inventory-Products-SortMenu.png" width="310" height="552" /></center><br>
 
 ### The Barcode Scanner & Product Detail Entry
 
-In order to use thje barcde scanner buit in to Inventory, you must give permission for the Inventry app to access the iOS device's camera:
+In order to use the barcde scanner built in to Inventory, you must give permission for the Inventry app to access the iOS device's camera:
 
 <center> <img src="/Graphics/Inventory-Camera-Permissions.png" width="310" height="552" /></center>Camera Permission Request<br>
 
@@ -105,19 +105,19 @@ However, if you are running this application in the OS simulator under Xcode, th
 A new product can be entered into Inventory in 2 ways:
 
   - tapping the "+" button on the product listing screen. This will bring up an empty form that can be filled in
-  - <center> <img src="/Graphics/Inventory-New-Product.png" width="310" height="552" /></center><br>
+  <center> <img src="/Graphics/Inventory-New-Product.png" width="310" height="552" /></center><br>
 
   - Scanning a barcode - if the (UPC) scan code is not currently represented in the products:
-
   <center> <img src="/Graphics/Inventory-Barcode-Scanning.png" width="310" height="552" /></center>Barcode Scanning<br>
 
 
-If the product is not yet in the system yoiuy are given the option to add it:
+If the product is not yet in the system you are given the option to add it:
   <center> <img src="/Graphics/Inventory-Scancode-Not-Found.png" width="310" height="552" /></center>Scancode Not Found<br>
 
 
 Adding a product image to your inventory record:
 <center> <img src="/Graphics/Inventory-TakePhoto.png" width="310" height="552" /></center><br>
+
 
 
 If a product you scanned is _already_ int he inventory system, it will be displayed:
@@ -156,23 +156,23 @@ If a product you scanned is _already_ int he inventory system, it will be displa
 
 ### Tracking Additions and Subtractions From Inventory
 
-One of thei8 interesting aspects of a mobil application is the fact it -- to be truly useful -- needs to work both online _and_ offline.  Ouyr inventory application as an additional constraint - it needs to suport changing quantities inside the applicaiton in a consistent and mathematically correct way.
+One of the interesting aspects of a mobile application is the fact it -- to be truly useful -- needs to work both online _and_ offline.  Our inventory application as an additional constraint: it needs to suport changing quantities inside the application in a consistent and mathematically correct way regardless of how many users are acceessing or updating the items.
 
 While this may seem self-evident, supporting artithmetical atomicity is tricky.  Realm suports 2 different ways of ensuring that transacitons (additions or subtractions) from inventories: Lists and Counters.
 
 #### Method 1: Lists
 
-TBD: show how adding up the  numbers from a list will yield a consitent result w/out atomic counters
+TBD: show how adding up the transactions in a list will yield a consistent result w/out the use of atomic counters.
 
 Let's look at a transaction log for a few hypothetical products:
 <center> <img src="/Graphics/Inventory-Transaction-log-plain.png" /></center><br>
 
 Here we see there several products - (product ID's 1,2 3 and 5) each with several additions or removals (sales)  from the inventory.
 
-If we highlght just the acivity for product 1, we can see quickly where this goes - adding up the amounts of all the transactions tells use the current quanrtity on-hand of product #1.  This is a very safe way to implement a tranction safe coiunting system.  It also has the ability to allow us to creatre a rich system where we can add more color (metadata) to our inventory system (like the ID of who sold what, what store or region did gets credit for a sale, etc).
+If we highlght just the acivity for product 1, we can see quickly where this goes - adding up the amounts of all the transactions tells use the current quanrtity on-hand of product #1.  This is a very safe way to implement a tranction safe counting system.  It also has the ability to allow us to create a rich system where we can add more color (metadata) to our inventory system (like the ID of who sold what, what store or region did gets credit for a sale, etc).
 <center> <img src="/Graphics/Inventory-Transaction-log-highlighted.png"/></center><br>
 
-Of course this does require a lot more storage and a more interaction with the server. Another way to implement the same functionality is with transaction safe counters
+Of course this does require a lot more storage and a more interaction with the server. Another way to implement the same functionality is with transaction safe counters.
 
 #### Method 2: Counters
 TBS: Describe Realm Counters here...
