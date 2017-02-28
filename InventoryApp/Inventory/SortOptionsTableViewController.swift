@@ -27,7 +27,8 @@ class SortOptionsTableViewController: UITableViewController {
     let sortOptions: Array<Dictionary<String, String>> = [
         ["productName": NSLocalizedString("Name", comment: "Name")],
         ["lastUpdated": NSLocalizedString("Updated", comment: "Updated")],
-        ["amount": NSLocalizedString("Quantity", comment: "Quantity")]
+        // Doesn't seem we can sort on synthesized properties
+        //["amount": NSLocalizedString("Quantity", comment: "Quantity")]
     ]
 
     var delegate: SortOptionsSelectionProtocol?

@@ -185,6 +185,14 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
     //MARK: UISearchBar delegate
     func searchBar(_ searchBar: UISearchBar, textDidChange textSearched: String) {
         print("typing in search bar: term = \(textSearched)")
+        if textSearched != "" {
+            let predicate = NSPredicate(format:"productName CONTAINS[c] %@ OR productDescription CONTAINS[c] %@ OR id CONTAINS[c] %@", textSearched, textSearched, textSearched)
+
+            products = realm.objects(Product.self).filter(predicate)
+        } else {
+            products = realm.objects(Product.self).sorted(byKeyPath: sortProperty, ascending: sortAscending ? true : false)
+        }
+        tableView.reloadData()
     }
     
     // MARK: SortOptionsSelectionProtocol delegate method(s)
