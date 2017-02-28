@@ -101,6 +101,10 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
         return products?.count ?? 0
     }
     
+    override  func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 120.0
+    }
+
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let product = products![indexPath.row]
@@ -112,9 +116,9 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
         cell.textLabel?.text = product.productName
         cell.detailTextLabel?.text = "\(product.productDescription) \(qohString)"
         if let productImage = product.image { // we have an image in the data
-            cell.imageView?.image = UIImage(data:productImage)
+            cell.imageView?.image = UIImage(data:productImage)?.resizeImage(targetSize: CGSize(width:110, height:110))
         } else { // use the placeholder image
-            cell.imageView?.image = UIImage(named: "Package")
+            cell.imageView?.image = UIImage(named: "Package")?.resizeImage(targetSize: CGSize(width:110, height:110))
         }
         return cell
     }
@@ -177,7 +181,7 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
     }
     
     //MARK: UISearchBar delegate
-    func searchBar(searchBar: UISearchBar, textDidChange textSearched: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange textSearched: String) {
         print("typing in search bar: term = \(textSearched)")
     }
     
@@ -209,7 +213,7 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
             controller.dismissalDelegate = self
             present(controller, animated: true, completion: nil)
         } else {
-            inSimulatorAlert(message: NSLocalizedString("Barcode scanner unavaiable in the iOS Simulator", comment: "No scanner in the simulator"))
+            inSimulatorAlert(message: NSLocalizedString("Barcode scanner unavailable in the iOS Simulator", comment: "No scanner in the simulator"))
         }
     }
     
@@ -219,7 +223,7 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
     }
     
     func jumpToProduct(productId: String) {
-        // scroll the products list to the indicated prodiuctId
+        // scroll the products list to the indicated productId
     }
     
     func findByProductID(productId: String) -> Bool{
@@ -262,7 +266,7 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
         // Present Dialog message
         present(alert, animated: true, completion:nil)
     }
-} // of ProdiuctsTableViewController
+} // of ProductsTableViewController
 
 
 extension ProductsTableViewController: BarcodeScannerCodeDelegate {

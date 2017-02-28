@@ -57,6 +57,11 @@ class Product : Object {
         return "id"
     }
     
+    
+    override static func ignoredProperties() -> [String] {
+        return ["amount"]
+    }
+
     /*
      * These versions use the map/reduce against agrregated collections - which is a valid way to do this computation
      * However Realm provides a new nice convenience methods built right into its collections.
@@ -95,12 +100,17 @@ class Product : Object {
         let rlm = try! Realm()
         try! rlm.write {
             if quantity != 0 {
+                let now = Date()
                 let transaction = Transaction()
-                transaction.transactionDate = Date()
+                transaction.transactionDate = now
                 transaction.transactedBy = userIdentity
                 transaction.productId = self.id
                 transaction.amount = quantity
                 rlm.add(transaction, update: true)
+                
+                self.lastUpdated = now
+                self.transactions.append(transaction)
+                rlm.add(self, update: true)
             }
             
         }

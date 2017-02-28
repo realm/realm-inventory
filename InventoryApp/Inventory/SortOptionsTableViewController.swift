@@ -25,9 +25,9 @@ protocol SortOptionsSelectionProtocol {
 class SortOptionsTableViewController: UITableViewController {
 
     let sortOptions: Array<Dictionary<String, String>> = [
-        ["lastUpdated": NSLocalizedString("Updated", comment: "Updated")],
         ["productName": NSLocalizedString("Name", comment: "Name")],
-        ["amount": NSLocalizedString("Quantity", comment: "Quantity")],
+        ["lastUpdated": NSLocalizedString("Updated", comment: "Updated")],
+        ["amount": NSLocalizedString("Quantity", comment: "Quantity")]
     ]
 
     var delegate: SortOptionsSelectionProtocol?
@@ -41,7 +41,7 @@ class SortOptionsTableViewController: UITableViewController {
     override func viewWillAppear(_ animated: Bool) {
         // the sort option may have chanvges since last we were here... so check to see of the caller has set is
         if currentlySelectedSortOption.isEmpty {
-            currentlySelectedSortOption = "lastUpdated"
+            currentlySelectedSortOption = "productName"
         }
     }
 

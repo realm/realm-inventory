@@ -92,7 +92,11 @@ class ProductDetailViewController: FormViewController {
                 row.title = NSLocalizedString("Product ID", comment:"Product ID")
                 row.tag = "Product ID"
                 if self.product!.id != "" {
-                    row.value = self.product!.id
+                    let rlm = try! Realm()
+                    try! rlm.write {
+                        row.value = self.product!.id
+                        rlm.add(self.product!, update:true)
+                    }
                 }
                 if editable == false {
                     row.disabled = true
@@ -120,7 +124,8 @@ class ProductDetailViewController: FormViewController {
                         row.value = UIImage(data:imageData! as Data)!
                     }
                 }).onChange({ (row) in
-                    try! self.realm.write {
+                    let rlm = try! Realm()
+                    try! rlm.write {
                         if row.value != nil {
                             let resizedImage = row.value!.resizeImage(targetSize: CGSize(width: 128, height: 128))
                             self.product?.image = UIImagePNGRepresentation(resizedImage) as Data?
@@ -128,6 +133,7 @@ class ProductDetailViewController: FormViewController {
                             self.product?.image = nil
                             row.value = UIImage(named: "Package")?.imageWithTint(tintColor: .lightGray)
                         }
+                        rlm.add(self.product!, update: true)
                     }
                 })
             
@@ -141,7 +147,11 @@ class ProductDetailViewController: FormViewController {
                     row.disabled = true
                 }
                 }.onChange({ (row) in
-                    self.product?.productName = row.value!
+                    let rlm = try! Realm()
+                    try! rlm.write {
+                        self.product?.productName = row.value!
+                        rlm.add(self.product!, update: true)
+                    }
                 })
             
             <<< TextRow(){ row in
@@ -151,7 +161,15 @@ class ProductDetailViewController: FormViewController {
                     row.disabled = true
                 }
                 }.onChange({ (row) in
-                    self.product?.productDescription = row.value!
+                    let rlm = try! Realm()
+                    try! rlm.write {
+                    if row.value != nil {
+                        self.product?.productDescription = row.value!
+                    } else {
+                        self.product?.productDescription = ""
+                    }
+                        rlm.add(self.product!, update: true)
+                    }
                 })
             
                 <<< IntRow(){ row in
@@ -167,14 +185,21 @@ class ProductDetailViewController: FormViewController {
                         row.disabled = true
                     }
                     }.cellUpdate({ (cell , row) in
+                        let rlm = try! Realm()
+                        try! rlm.write {
                         row.value = self.product!.quantityOnHand()
+                            rlm.add(self.product!, update: true)
+                        }
+
                         row.reload()
                     })
                     .onChange({ (row) in
                         self.quantityTmp  = row.value!
                     })
-                
-                +++ Section(NSLocalizedString("Inventory Change Transaction", comment: "Inventory Change"))
+        
+        
+        if  newProductMode == false { // we never show this on the initl creation - users fill in the "initial quantity" instead
+                form +++ Section(NSLocalizedString("Inventory Change Transaction", comment: "Inventory Change"))
                 <<< StepperRow("Add or Subtract Items") { row in
                     row.tag = "quantityStepper"
                     row.title = NSLocalizedString("Add/Subtract", comment: "Add/Subtract")
@@ -221,6 +246,8 @@ class ProductDetailViewController: FormViewController {
                             
                         }
                     })
+        } // of if newProductMode
+
         return form
     }
     
