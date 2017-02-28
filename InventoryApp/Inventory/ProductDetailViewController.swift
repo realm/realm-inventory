@@ -39,6 +39,8 @@ extension String {
 class ProductDetailViewController: FormViewController {
     
     let realm = try! Realm()
+    var token : NotificationToken?
+    
     var newProductMode = false
     var editMode = false
     var productId : String?
@@ -64,19 +66,60 @@ class ProductDetailViewController: FormViewController {
             product = realm.objects(Product.self).filter("id = %@", productId!).first
             let rightButton = UIBarButtonItem(title: NSLocalizedString("Edit", comment: "Edit"), style: .plain, target: self, action: #selector(EditTaskPressed))
             self.navigationItem.rightBarButtonItem = rightButton
-            
-        }
+        } // else in new versus existing product check
         
         
-        if self.newProductMode == false {
-            // if the redcord already exitrs, we need a stepper row in order to add or remove items in as transaction
-        }
         
         // Do any additional setup after loading the view.
         form = createForm(editable: formIsEditable(), product: product)
         
+        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        // Lastly, if this is an existing product, let's listen for changes on it;
+        // should be done after the form is created
+        if newProductMode == false {
+            self.token = product?.addNotificationBlock { change in
+                switch change {
+                case .change(let properties):
+                    for property in properties {
+                        switch property.name {
+                        case "productName":
+                            let row = self.form.rowBy(tag: "productName") as! TextRow
+                            row.updateCell()
+                            break
+                        case "productDescription":
+                            let row = self.form.rowBy(tag: "productDescription") as! TextRow
+                            row.updateCell()
+                            break
+                        case "image":
+                            let row = self.form.rowBy(tag: "image") as! ImageRow
+                            row.updateCell()
+                            break
+                        case "transactions":
+                            let row = self.form.rowBy(tag: "QuantityOnHandRow") as! IntRow
+                            row.updateCell()
+                            break
+                        default:
+                            break
+                        }
+                } // of properties loop
+                case .error(let error):
+                    print("An error occurred: \(error)")
+                case .deleted:
+                    print("The object was deleted.")
+                }
+            } // of object change notifications
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if self.token != nil {
+            self.token?.stop()
+            self.token = nil
+        }
+    }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -89,8 +132,8 @@ class ProductDetailViewController: FormViewController {
         let form = Form()
         form +++ Section(NSLocalizedString("Product Detail Information", comment: "Product Detail Information"))
             <<< TextRow(NSLocalizedString("Product ID", comment:"Product ID")) { row in
-                row.title = NSLocalizedString("Product ID", comment:"Product ID")
                 row.tag = "Product ID"
+                row.title = NSLocalizedString("Product ID", comment:"Product ID")
                 if self.product!.id != "" {
                     let rlm = try! Realm()
                     try! rlm.write {
@@ -109,6 +152,7 @@ class ProductDetailViewController: FormViewController {
                 })
             
             <<< ImageRow() { row in
+                row.tag = "image"
                 row.title = NSLocalizedString("Profile Image", comment: "profile image")
                 row.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum, .Camera]
                 row.clearAction = .yes(style: UIAlertActionStyle.destructive)
@@ -138,6 +182,7 @@ class ProductDetailViewController: FormViewController {
                 })
             
             <<< TextRow(){ row in
+                row.tag = "productName"
                 row.title = NSLocalizedString("Product Name", comment:"Product Name")
                 row.placeholder = "Acme RoadRunner Food"
                 if self.product!.productName != "" {
@@ -157,6 +202,7 @@ class ProductDetailViewController: FormViewController {
                 })
             
             <<< TextRow(){ row in
+                row.tag = "productDescription"
                 row.value = self.product?.productDescription
                 row.placeholder = NSLocalizedString("Product Description", comment: "description")
                 if editable == false {
