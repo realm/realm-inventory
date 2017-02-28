@@ -37,14 +37,14 @@ extension String {
 
 
 class ProductDetailViewController: FormViewController {
-
+    
     let realm = try! Realm()
     var newProductMode = false
     var editMode = false
     var productId : String?
     var product: Product?
     var quantityTmp = 0
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -53,7 +53,7 @@ class ProductDetailViewController: FormViewController {
             let rightButton = UIBarButtonItem(title: NSLocalizedString("Save", comment: "Save"), style: .plain, target: self, action: #selector(SavePressed))
             self.navigationItem.leftBarButtonItem = leftButton
             self.navigationItem.rightBarButtonItem = rightButton
-
+            
             
             product = Product()
             if productId != nil {
@@ -64,19 +64,19 @@ class ProductDetailViewController: FormViewController {
             product = realm.objects(Product.self).filter("id = %@", productId!).first
             let rightButton = UIBarButtonItem(title: NSLocalizedString("Edit", comment: "Edit"), style: .plain, target: self, action: #selector(EditTaskPressed))
             self.navigationItem.rightBarButtonItem = rightButton
-
+            
         }
-
+        
         
         if self.newProductMode == false {
             // if the redcord already exitrs, we need a stepper row in order to add or remove items in as transaction
         }
-
+        
         // Do any additional setup after loading the view.
-       form = createForm(editable: formIsEditable(), product: product)
-
+        form = createForm(editable: formIsEditable(), product: product)
+        
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -87,7 +87,7 @@ class ProductDetailViewController: FormViewController {
     func createForm(editable: Bool, product: Product?) -> Form {
         
         let form = Form()
-            form +++ Section(NSLocalizedString("Product Detail Information", comment: "Product Detail Information"))
+        form +++ Section(NSLocalizedString("Product Detail Information", comment: "Product Detail Information"))
             <<< TextRow(NSLocalizedString("Product ID", comment:"Product ID")) { row in
                 row.title = NSLocalizedString("Product ID", comment:"Product ID")
                 row.tag = "Product ID"
@@ -115,9 +115,8 @@ class ProductDetailViewController: FormViewController {
                 if editable == false {
                     row.disabled = true
                 }
-
+                
                 }.cellSetup({ (cell, row) in
-                    
                     if self.product!.image == nil {
                         row.value = UIImage(named: "Package")?.imageWithTint(tintColor: .lightGray)
                     } else {
@@ -126,37 +125,37 @@ class ProductDetailViewController: FormViewController {
                     }
                 }).onChange({ (row) in
                     let rlm = try! Realm()
-                    try! rlm.write {
-                        if row.value != nil {
-                            let resizedImage = row.value!.resizeImage(targetSize: CGSize(width: 128, height: 128))
+                    if row.value != nil {
+                        try! rlm.write {
+                            let resizedImage = row.value!.resizeImage(targetSize: CGSize(width: 256, height: 256))
                             self.product?.image = UIImagePNGRepresentation(resizedImage) as Data?
-                        } else {
-                            self.product?.image = nil
-                            row.value = UIImage(named: "Package")?.imageWithTint(tintColor: .lightGray)
+                            rlm.add(self.product!, update: true)
                         }
-                        rlm.add(self.product!, update: true)
+                    } else {
+                        self.product?.image = nil
+                        row.value = UIImage(named: "Package")?.imageWithTint(tintColor: .lightGray)
                     }
                 })
             
-                <<< TextRow(){ row in
-                    row.title = NSLocalizedString("Product Name", comment:"Product Name")
-                    row.placeholder = "Acme RoadRunner Food"
-                    if self.product!.productName != "" {
-                        row.value = self.product!.productName
-                    }
-                    if editable == false {
-                        row.disabled = true
-                    }
-                    }.onChange({ (row) in
-                        let rlm = try! Realm()
-                        if row.value != nil {
-                            try! rlm.write {
-                                self.product?.productName = row.value!
-                                rlm.add(self.product!, update: true)
-                            }
+            <<< TextRow(){ row in
+                row.title = NSLocalizedString("Product Name", comment:"Product Name")
+                row.placeholder = "Acme RoadRunner Food"
+                if self.product!.productName != "" {
+                    row.value = self.product!.productName
+                }
+                if editable == false {
+                    row.disabled = true
+                }
+                }.onChange({ (row) in
+                    let rlm = try! Realm()
+                    if row.value != nil {
+                        try! rlm.write {
+                            self.product?.productName = row.value!
+                            rlm.add(self.product!, update: true)
                         }
-                    })
-                
+                    }
+                })
+            
             <<< TextRow(){ row in
                 row.value = self.product?.productDescription
                 row.placeholder = NSLocalizedString("Product Description", comment: "description")
@@ -166,43 +165,43 @@ class ProductDetailViewController: FormViewController {
                 }.onChange({ (row) in
                     let rlm = try! Realm()
                     try! rlm.write {
-                    if row.value != nil {
-                        self.product?.productDescription = row.value!
-                    } else {
-                        self.product?.productDescription = ""
-                    }
+                        if row.value != nil {
+                            self.product?.productDescription = row.value!
+                        } else {
+                            self.product?.productDescription = ""
+                        }
                         rlm.add(self.product!, update: true)
                     }
                 })
             
-                <<< IntRow(){ row in
-                    row.tag = "QuantityOnHandRow"
-                    if self.newProductMode == true {
-                        row.title = NSLocalizedString("Initial Quantity", comment:"Initial Quantity on Hand")
-                        row.placeholder = NSLocalizedString("initial quantity", comment: "initial quantity")
-                    } else {
-                        row.title = NSLocalizedString("Quantity on Hand", comment:"Quantity on Hand")
-                        row.placeholder = NSLocalizedString("No stock", comment: "initial quantity")
-                    }
-                    if editable == false || self.product!.hasTransactionHistory() == true { // if there's a transaction history, don't allow editing of QoH
-                        row.disabled = true
-                    }
-                    }.cellUpdate({ (cell , row) in
-                        let rlm = try! Realm()
-                        try! rlm.write {
+            <<< IntRow(){ row in
+                row.tag = "QuantityOnHandRow"
+                if self.newProductMode == true {
+                    row.title = NSLocalizedString("Initial Quantity", comment:"Initial Quantity on Hand")
+                    row.placeholder = NSLocalizedString("initial quantity", comment: "initial quantity")
+                } else {
+                    row.title = NSLocalizedString("Quantity on Hand", comment:"Quantity on Hand")
+                    row.placeholder = NSLocalizedString("No stock", comment: "initial quantity")
+                }
+                if editable == false || self.product!.hasTransactionHistory() == true { // if there's a transaction history, don't allow editing of QoH
+                    row.disabled = true
+                }
+                }.cellUpdate({ (cell , row) in
+                    let rlm = try! Realm()
+                    try! rlm.write {
                         row.value = self.product!.quantityOnHand()
-                            rlm.add(self.product!, update: true)
-                        }
-
-                        row.reload()
-                    })
-                    .onChange({ (row) in
-                        self.quantityTmp  = row.value!
-                    })
+                        rlm.add(self.product!, update: true)
+                    }
+                    
+                    row.reload()
+                })
+                .onChange({ (row) in
+                    self.quantityTmp  = row.value!
+                })
         
         
         if  newProductMode == false { // we never show this on the initl creation - users fill in the "initial quantity" instead
-                form +++ Section(NSLocalizedString("Inventory Change Transaction", comment: "Inventory Change"))
+            form +++ Section(NSLocalizedString("Inventory Change Transaction", comment: "Inventory Change"))
                 <<< StepperRow("Add or Subtract Items") { row in
                     row.tag = "quantityStepper"
                     row.title = NSLocalizedString("Add/Subtract", comment: "Add/Subtract")
@@ -223,7 +222,7 @@ class ProductDetailViewController: FormViewController {
                             actionButtonRow.disabled = true
                             actionButtonRow.title = NSLocalizedString("Add Quantity", comment: "Add")
                         }
-                        // However if we're removing items and the result of the requested change would be more 
+                        // However if we're removing items and the result of the requested change would be more
                         // would be more than the quantity on hand (QoH), clamp the value at the QoH
                         if  row.value! < 0 && (Int(qohRow.value!) - abs(Int(row.value!)) < 0) {
                             row.value! = Double(qohRow.value!) * -1
@@ -237,7 +236,7 @@ class ProductDetailViewController: FormViewController {
                     }.onCellSelection({ (cell, row)  in
                         let stepper = form.rowBy(tag: "quantityStepper") as! StepperRow
                         let qohRow = form.rowBy(tag: "QuantityOnHandRow") as! IntRow
-
+                        
                         if stepper.value != 0 { // belt & suspenders check - don't want zero-value transactions
                             self.product!.addTransaction(quantity: Int(stepper.value!), userIdentity: SyncUser.current!.identity!) // push the transaction
                             let banner = Banner(title: "Inventory Update Successful", subtitle: "Registered change of \(Int(stepper.value!)) item(s).", image: UIImage(named: "Icon"), backgroundColor: UIColor(red:48.00/255.0, green:174.0/255.0, blue:51.5/255.0, alpha:1.000))
@@ -250,7 +249,7 @@ class ProductDetailViewController: FormViewController {
                         }
                     })
         } // of if newProductMode
-
+        
         return form
     }
     
@@ -262,7 +261,7 @@ class ProductDetailViewController: FormViewController {
         }
         return false
     }
-
+    
     // MARK: Actions
     @IBAction func BackCancelPressed(sender: AnyObject) {
         // Unwind/pop from the segue
@@ -286,7 +285,7 @@ class ProductDetailViewController: FormViewController {
     
     
     @IBAction func SavePressed(sender: AnyObject) {
-
+        
         let rlm = try! Realm()
         try! rlm.write {
             if self.newProductMode {
@@ -308,18 +307,18 @@ class ProductDetailViewController: FormViewController {
             
         }
         // Unwind/pop from the segue
-       _ = self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
