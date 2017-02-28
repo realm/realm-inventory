@@ -114,6 +114,8 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
         let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath as IndexPath)
 
         cell.textLabel?.text = product.productName
+        cell.detailTextLabel?.lineBreakMode = .byWordWrapping
+        cell.detailTextLabel?.numberOfLines = 3
         cell.detailTextLabel?.text = "\(product.productDescription) \(qohString)"
         if let productImage = product.image { // we have an image in the data
             cell.imageView?.image = UIImage(data:productImage)?.resizeImage(targetSize: CGSize(width:110, height:110))
