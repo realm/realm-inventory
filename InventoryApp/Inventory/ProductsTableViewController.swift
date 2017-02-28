@@ -233,7 +233,11 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
     }
     
     func jumpToProduct(productId: String) {
-        // scroll the products list to the indicated productId
+        // we already know this product exists, scroll to it and then segue to the deail view
+        if let row = products?.index(matching: "id == '\(productId)'") {
+            tableView.selectRow(at: IndexPath(row: row, section: 0), animated: false, scrollPosition: .middle)
+            performSegue(withIdentifier: kInventoryToProductDetail, sender: self)
+        }
     }
     
     func findByProductID(productId: String) -> Bool{
@@ -282,8 +286,7 @@ class ProductsTableViewController: UITableViewController, UIPopoverPresentationC
 extension ProductsTableViewController: BarcodeScannerCodeDelegate {
     
     func barcodeScanner(_ controller: BarcodeScannerController, didCaptureCode code: String, type: String) {
-        print(code)
-        controller.reset()
+        //print(code)
         controller.dismiss(animated: true, completion: nil)
         if findByProductID(productId: code) {
             jumpToProduct(productId: code)

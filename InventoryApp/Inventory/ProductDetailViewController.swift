@@ -137,23 +137,25 @@ class ProductDetailViewController: FormViewController {
                     }
                 })
             
-            <<< TextRow(){ row in
-                row.title = NSLocalizedString("Product Name", comment:"Product Name")
-                row.placeholder = "Acme RoadRunner Food"
-                if self.product!.productName != "" {
-                    row.value = self.product!.productName
-                }
-                if editable == false {
-                    row.disabled = true
-                }
-                }.onChange({ (row) in
-                    let rlm = try! Realm()
-                    try! rlm.write {
-                        self.product?.productName = row.value!
-                        rlm.add(self.product!, update: true)
+                <<< TextRow(){ row in
+                    row.title = NSLocalizedString("Product Name", comment:"Product Name")
+                    row.placeholder = "Acme RoadRunner Food"
+                    if self.product!.productName != "" {
+                        row.value = self.product!.productName
                     }
-                })
-            
+                    if editable == false {
+                        row.disabled = true
+                    }
+                    }.onChange({ (row) in
+                        let rlm = try! Realm()
+                        if row.value != nil {
+                            try! rlm.write {
+                                self.product?.productName = row.value!
+                                rlm.add(self.product!, update: true)
+                            }
+                        }
+                    })
+                
             <<< TextRow(){ row in
                 row.value = self.product?.productDescription
                 row.placeholder = NSLocalizedString("Product Description", comment: "description")
