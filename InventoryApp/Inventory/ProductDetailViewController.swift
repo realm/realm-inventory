@@ -98,7 +98,8 @@ class ProductDetailViewController: FormViewController {
                         rlm.add(self.product!, update:true)
                     }
                 }
-                if editable == false {
+                // NB: Once inserted into the Realm, the primary key cannot be edited - will generate an exception!
+                if editable == false || newProductMode == false {
                     row.disabled = true
                 }
                 }.cellSetup { cell, row in
