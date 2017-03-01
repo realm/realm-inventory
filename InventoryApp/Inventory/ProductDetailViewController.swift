@@ -43,6 +43,7 @@ class ProductDetailViewController: FormViewController {
     
     var newProductMode = false
     var editMode = false
+    var processingObjectUpdate = false
     var productId : String?
     var product: Product?
     var quantityTmp = 0
@@ -87,18 +88,22 @@ class ProductDetailViewController: FormViewController {
                         switch property.name {
                         case "productName":
                             let row = self.form.rowBy(tag: "productName") as! TextRow
+                            self.processingObjectUpdate = true
                             row.updateCell()
                             break
                         case "productDescription":
                             let row = self.form.rowBy(tag: "productDescription") as! TextRow
+                            self.processingObjectUpdate = true
                             row.updateCell()
                             break
                         case "image":
                             let row = self.form.rowBy(tag: "image") as! ImageRow
+                            self.processingObjectUpdate = true
                             row.updateCell()
                             break
                         case "transactions":
                             let row = self.form.rowBy(tag: "QuantityOnHandRow") as! IntRow
+                            self.processingObjectUpdate = true
                             row.updateCell()
                             break
                         default:
@@ -168,23 +173,25 @@ class ProductDetailViewController: FormViewController {
                         row.value = UIImage(data:imageData! as Data)!
                     }
                 }).onChange({ (row) in
-                    let rlm = try! Realm()
-                    if row.value != nil {
-                        try! rlm.write {
-                            let resizedImage = row.value!.resizeImage(targetSize: CGSize(width: 256, height: 256))
-                            self.product?.image = UIImagePNGRepresentation(resizedImage) as Data?
-                            rlm.add(self.product!, update: true)
+                    if self.processingObjectUpdate == false {
+                        if row.value != nil {
+                            let rlm = try! Realm()
+                            try! rlm.write {
+                                let resizedImage = row.value!.resizeImage(targetSize: CGSize(width: 256, height: 256))
+                                self.product?.image = UIImagePNGRepresentation(resizedImage) as Data?
+                                rlm.add(self.product!, update: true)
+                            }
+                        } else {
+                            self.product?.image = nil
+                            row.value = UIImage(named: "Package")?.imageWithTint(tintColor: .lightGray)
                         }
-                    } else {
-                        self.product?.image = nil
-                        row.value = UIImage(named: "Package")?.imageWithTint(tintColor: .lightGray)
                     }
                 })
             
             <<< TextRow(){ row in
                 row.tag = "productName"
                 row.title = NSLocalizedString("Product Name", comment:"Product Name")
-                row.placeholder = "Acme RoadRunner Food"
+                row.placeholder = NSLocalizedString("Acme RoadRunner Food", comment:"Product Name")
                 if self.product!.productName != "" {
                     row.value = self.product!.productName
                 }
@@ -192,23 +199,27 @@ class ProductDetailViewController: FormViewController {
                     row.disabled = true
                 }
                 }.onChange({ (row) in
-                    let rlm = try! Realm()
-                    if row.value != nil {
-                        try! rlm.write {
-                            self.product?.productName = row.value!
-                            rlm.add(self.product!, update: true)
+                    if self.processingObjectUpdate == false {
+                        let rlm = try! Realm()
+                        if row.value != nil {
+                            try! rlm.write {
+                                self.product?.productName = row.value!
+                                rlm.add(self.product!, update: true)
+                            }
                         }
                     }
                 })
             
             <<< TextRow(){ row in
                 row.tag = "productDescription"
-                row.value = self.product?.productDescription
                 row.placeholder = NSLocalizedString("Product Description", comment: "description")
                 if editable == false {
                     row.disabled = true
                 }
-                }.onChange({ (row) in
+                }.cellUpdate({ (cell, row) in
+                    row.value = self.product?.productDescription
+                })
+                .onChange({ (row) in
                     let rlm = try! Realm()
                     try! rlm.write {
                         if row.value != nil {
@@ -222,23 +233,23 @@ class ProductDetailViewController: FormViewController {
             
             <<< IntRow(){ row in
                 row.tag = "QuantityOnHandRow"
-                if self.newProductMode == true {
-                    row.title = NSLocalizedString("Initial Quantity", comment:"Initial Quantity on Hand")
-                    row.placeholder = NSLocalizedString("initial quantity", comment: "initial quantity")
-                } else {
-                    row.title = NSLocalizedString("Quantity on Hand", comment:"Quantity on Hand")
-                    row.placeholder = NSLocalizedString("No stock", comment: "initial quantity")
                 }
-                if editable == false || self.product!.hasTransactionHistory() == true { // if there's a transaction history, don't allow editing of QoH
-                    row.disabled = true
-                }
-                }.cellUpdate({ (cell , row) in
-                    let rlm = try! Realm()
-                    try! rlm.write {
-                        row.value = self.product!.quantityOnHand()
-                        rlm.add(self.product!, update: true)
+                .cellSetup({ (cell, row) in
+                    row.value = self.product!.quantityOnHand()
+
+                    if self.newProductMode == true {
+                        row.title = NSLocalizedString("Initial Quantity", comment:"Initial Quantity on Hand")
+                        row.placeholder = NSLocalizedString("initial quantity", comment: "initial quantity")
+                    } else {
+                        row.title = NSLocalizedString("Quantity on Hand", comment:"Quantity on Hand")
+                        row.placeholder = NSLocalizedString("No stock", comment: "initial quantity")
                     }
-                    
+                    if editable == false || self.product!.hasTransactionHistory() == true { // if there's a transaction history, don't allow editing of QoH
+                        row.disabled = true
+                    }
+                })
+                .cellUpdate({ (cell , row) in
+                    row.value = self.product!.quantityOnHand()
                     row.reload()
                 })
                 .onChange({ (row) in
@@ -246,12 +257,13 @@ class ProductDetailViewController: FormViewController {
                 })
         
         
-        if  newProductMode == false { // we never show this on the initl creation - users fill in the "initial quantity" instead
+        if  newProductMode == false { // we never show this on the initial creation - users fill in the "initial quantity" instead
             form +++ Section(NSLocalizedString("Inventory Change Transaction", comment: "Inventory Change"))
                 <<< StepperRow("Add or Subtract Items") { row in
                     row.tag = "quantityStepper"
                     row.title = NSLocalizedString("Add/Subtract", comment: "Add/Subtract")
-                    }.cellSetup({ (cell, row) in
+                    }
+                    .cellSetup({ (cell, row) in
                         cell.stepper.minimumValue = -(Double)(UINT64_MAX)
                     })
                     .onChange({ (row) in
@@ -343,12 +355,6 @@ class ProductDetailViewController: FormViewController {
             rlm.add(self.product!, update: true)
             if self.newProductMode == true && self.quantityTmp > 0 {
                 self.product?.addTransaction(quantity: self.quantityTmp, userIdentity: SyncUser.current!.identity!)
-                //let transaction = Transaction()
-                //transaction.transactionDate = Date()
-                //transaction.transactedBy = SyncUser.current!.identity!
-                //transaction.productId = self.product!.id
-                //transaction.amount = self.quantityTmp
-                //rlm.add(transaction, update: true)
             }
             
         }
