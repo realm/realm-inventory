@@ -38,13 +38,6 @@ class UserProfileViewController: FormViewController {
         
         
         thePersonRecord = realm.objects(Person.self).filter(NSPredicate(format: "id = %@", myIdentity!)).first
-        try! realm.write {
-            if thePersonRecord == nil {
-                thePersonRecord = realm.create(Person.self, value: ["id": myIdentity])
-                realm.add(thePersonRecord!, update: true)
-            }
-        }
-        
         
         form +++ Section(NSLocalizedString("Profile Information", comment: "Profile Information"))
             <<< ImageRow() { row in

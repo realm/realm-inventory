@@ -14,6 +14,9 @@ class InventoryLoginViewController: UIViewController {
 
     var loginViewController: LoginViewController!
     var token: NotificationToken!
+    var myIdentity = SyncUser.current?.identity!
+    var thePersonRecord: Person?
+    let realm = try! Realm()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +32,16 @@ class InventoryLoginViewController: UIViewController {
 
             // We need to set global read/write for this top-level Realm; this can fail, and it's OK.
             setupDefaultGlobalPermissions(user: SyncUser.current, forURL: syncServerURL(hostname: self.loginViewController.serverURL!).absoluteString)
+
+            let myIdentity = SyncUser.current?.identity!
+            thePersonRecord = realm.objects(Person.self).filter(NSPredicate(format: "id = %@", myIdentity!)).first
+            try! realm.write {
+                if thePersonRecord == nil {
+                    thePersonRecord = realm.create(Person.self, value: ["id": myIdentity])
+                    realm.add(thePersonRecord!, update: true)
+                }
+            }
+            
 
             performSegue(withIdentifier: "loginToMainView", sender: self)
         } else {
