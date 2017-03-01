@@ -333,7 +333,7 @@ class ProductDetailViewController: FormViewController {
             self.SavePressed(sender: self)
             editMode = false
         } else {
-            self.navigationItem.rightBarButtonItem?.title = NSLocalizedString("Save", comment: "Save")
+            self.navigationItem.rightBarButtonItem?.title = NSLocalizedString("Done", comment: "Done")
             editMode = true
             
             form = createForm(editable: formIsEditable(), product: product)
