@@ -153,12 +153,7 @@ class ProductDetailViewController: FormViewController {
                         row.value = UIImage(data:imageData! as Data)!
                     }
                 })
-//                    .cellUpdate({ (image , row) in
-//                    let imageData = self.product?.image!
-//                    row.value = UIImage(data:imageData! as Data)!
-//                })
                 .onChange({ (row) in
-                    //if self.processingObjectUpdate == false {
                         if row.value != nil {
                             let rlm = try! Realm()
                             try! rlm.write {
@@ -170,7 +165,6 @@ class ProductDetailViewController: FormViewController {
                             self.product?.image = nil
                             row.value = UIImage(named: "Package")?.imageWithTint(tintColor: .lightGray)
                         }
-                    //}
                 })
             
             <<< TextRow(){ row in
