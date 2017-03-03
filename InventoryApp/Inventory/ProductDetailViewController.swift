@@ -14,26 +14,6 @@ import RealmSwift
 import BRYXBanner
 
 
-extension String {
-    func currencyToString(value: Double) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.maximumFractionDigits = 2
-        formatter.locale = Locale(identifier: Locale.current.identifier)
-        let result = formatter.string(from: value as NSNumber)
-        return result!
-    }
-    
-    func numberToLocalString(value: Double, formatAsInteger: Bool = false, fractionDigits: Int = 2) -> String {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .decimal
-        formatter.maximumFractionDigits = formatAsInteger ? 0 : fractionDigits
-        formatter.locale = Locale(identifier: Locale.current.identifier)
-        let result = formatter.string(from: value as NSNumber)
-        return result!
-    }
-    
-}
 
 
 class ProductDetailViewController: FormViewController {
@@ -329,7 +309,7 @@ class ProductDetailViewController: FormViewController {
     @IBAction func EditTaskPressed(sender: AnyObject) {
         print("Edit Tasks Pressed")
         if editMode == true {
-            //we're here becuase the user clicked edit (which now says "save") ... so we're going to save the record with whatever they've changed
+            //we're here because the user clicked edit (which now says "Done") ... so we're going to save the record with whatever they've changed
             self.SavePressed(sender: self)
             editMode = false
         } else {

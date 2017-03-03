@@ -63,8 +63,9 @@ class Product : Object {
     }
 
     /*
-     * These versions use the map/reduce against agrregated collections - which is a valid way to do this computation
-     * However Realm provides a new nice convenience methods built right into its collections.
+     * These versions use the map/reduce against agrregated collections - which is a valid way to 
+     * do this computation. However Realm provides a set nice convenience methods built right 
+     * into its collections, whihc is shown in the next set of functions
      */
     func quantityOnHandUsingMapReduce() -> Int {
         let realm = try! Realm()
@@ -117,12 +118,18 @@ class Product : Object {
 
     }
     
-    func hasTransactionHistory() -> Bool {
+    // this is used to allow us to know if we should allow editing of the main quant 
+    // on hand item in the product edit view. If there is an existing history adding 
+    // the number if skew the counts, so don't allow if it transactions have already 
+    // started on this product
+        func hasTransactionHistory() -> Bool {
         let realm = try! Realm()
         return realm.objects(Transaction.self).filter("productId = %@", self.id).count > 0
     }
 
     
+    
+    // @TODO - implement me!
     /**
      * get total quantity sold between the specified dates, or if only a start date, from the start date to the present
      * @returns The return value is an array of dictionaries representing the values for each date in the range.
@@ -142,7 +149,7 @@ class Product : Object {
 //            actualStartDate = tmpdate
 //        }
 //        
-//       We'd lke to do this: let dateRange = actualStartDate..<actualEndDate   ...but unforutnately a range is not sequence type, so instead,
+//       We'd lke to do this: let dateRange = actualStartDate..<actualEndDate   ...but unfortunately a range is not sequence type, so instead,
 //       we'll generate a sequence using NSCalendar types
 //
 //        // Impl notes:  need to calc days between dats to get number of final dicts we need to return
