@@ -274,10 +274,16 @@ class ProductDetailViewController: FormViewController {
                     }.onCellSelection({ (cell, row)  in
                         let stepper = form.rowBy(tag: "quantityStepper") as! StepperRow
                         let qohRow = form.rowBy(tag: "QuantityOnHandRow") as! IntRow
+                        var subtitle = ""
                         
                         if stepper.value != 0 { // belt & suspenders check - don't want zero-value transactions
                             self.product!.addTransaction(quantity: Int(stepper.value!), userIdentity: SyncUser.current!.identity!) // push the transaction
-                            let banner = Banner(title: "Inventory Update Successful", subtitle: "Registered change of \(Int(stepper.value!)) item(s).", image: UIImage(named: "Icon"), backgroundColor: UIColor(red:48.00/255.0, green:174.0/255.0, blue:51.5/255.0, alpha:1.000))
+                            if stepper.value! > 0 {
+                                subtitle = "Added \(Int(stepper.value!)) item(s)."
+                            } else {
+                                subtitle = "Removed \(abs(Int(stepper.value!))) item(s)."
+                            }
+                            let banner = Banner(title: "Inventory Update Successful", subtitle: subtitle, image: UIImage(named: "Icon"), backgroundColor: UIColor(red:48.00/255.0, green:174.0/255.0, blue:51.5/255.0, alpha:1.000))
                             banner.dismissesOnTap = true
                             banner.show(duration: 3.0)
                             stepper.value = 0
