@@ -152,8 +152,13 @@ class ProductDetailViewController: FormViewController {
                         let imageData = self.product?.image!
                         row.value = UIImage(data:imageData! as Data)!
                     }
-                }).onChange({ (row) in
-                    if self.processingObjectUpdate == false {
+                })
+//                    .cellUpdate({ (image , row) in
+//                    let imageData = self.product?.image!
+//                    row.value = UIImage(data:imageData! as Data)!
+//                })
+                .onChange({ (row) in
+                    //if self.processingObjectUpdate == false {
                         if row.value != nil {
                             let rlm = try! Realm()
                             try! rlm.write {
@@ -165,7 +170,7 @@ class ProductDetailViewController: FormViewController {
                             self.product?.image = nil
                             row.value = UIImage(named: "Package")?.imageWithTint(tintColor: .lightGray)
                         }
-                    }
+                    //}
                 })
             
             <<< TextRow(){ row in
@@ -178,8 +183,11 @@ class ProductDetailViewController: FormViewController {
                 if editable == false {
                     row.disabled = true
                 }
-                }.onChange({ (row) in
-                    if self.processingObjectUpdate == false {
+                }.cellUpdate({ (cell, row) in
+                    row.value = self.product!.productName
+                })
+                .onChange({ (row) in
+                    //if self.processingObjectUpdate == false {
                         let rlm = try! Realm()
                         if row.value != nil {
                             try! rlm.write {
@@ -187,7 +195,7 @@ class ProductDetailViewController: FormViewController {
                                 rlm.add(self.product!, update: true)
                             }
                         }
-                    }
+                    //}
                 })
             
             <<< TextRow(){ row in
