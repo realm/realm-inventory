@@ -188,43 +188,28 @@ class Product : Object {
         }
     }
     let transactions = List<Transaction>()
-}
+    // :
+    // more class methods
+    // :
+} // of Product
 ```
 
 ...and a *Transaction*:
 
 ```swift
-class Product : Object {
-    dynamic var id = ""                 // this should be something that's universal, like a UPC
-    dynamic var creationDate: Date?
-    dynamic var lastUpdated: Date?
-    dynamic var productName = ""
-    dynamic var productDescription = ""
-    dynamic var image : Data? // binary image data, stored as a PNG
-    var amount: Int {
-        get {
-            return self.quantityOnHand()
-        }
-    }
-    // until the true counter properties are available we'll emulate
-    // counters with a list (i.e., every addition or subtraction will be a list entry).
-    // To find out the number of units on hand a sum of the list values is performed
-    // conversely to find out the amount "sold" the absolute value of the sum of the negative
-    // entries is returned
 
-    let transactions = List<Transaction>()
+class Transaction : Object {
+    dynamic var id = NSUUID().uuidString    // every transaction is unique but the person doing it, the products and amounts, of course are not
+    dynamic var transactionDate: Date?
+    dynamic var transactedBy = ""           // a Realm SyncUser.identity
+    dynamic var productId = ""              // the product this refers to
+    dynamic var amount = 0                  // positive = inventory addition, negative == sale or inventory reduction
+
     // Initializers, accessors & cet.
     override static func primaryKey() -> String? {
         return "id"
     }
-
-    override static func ignoredProperties() -> [String] {
-        return ["amount"]
-    }
-// :
-// more class methods
-// :
-} // of the Product class
+}
 ```
 
 The Product class is a minimalistic, idealized implementation of what a product in an inventory system might look like.  The transaction class tracks all the required info about an addition to or sale from the inventory for any product.  The key things to note in the Product class are:
