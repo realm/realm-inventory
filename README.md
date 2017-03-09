@@ -21,6 +21,10 @@ This application demonstrates features of the [Realm Mobile Platform](http://lre
 
 The following modules will be installed as part of the Cocoapods setup:
 
+- [RealmSwift](https://realm.io)  The Realm bindings for Cocoa/Swift
+
+- [Realm LoginKit](https://github.com/realm-demos/realm-loginkit) A Realm control for logging in to Realm servers
+
 - [BarcodeScanner](https://github.com/hyperoslo/BarcodeScanner) an elegant barcode scanner module for iOS
 
 - [Eureka](https://github.com/xmartlabs/Eureka) a formbuilder for iOS in Swift by xmartlabs
@@ -87,13 +91,13 @@ TBD
 ### The Products View
 <center> <img src="/Graphics/Inventory-Product-Listing.png" width="310" height="552" /><br/>Product Listing</center><br>
 
-Products can be viewed across a number of dimensions - tapping the sort menu in the upper-left corner of the products view will bring up the sort options menu, and tapping the arrow immeidately to the right will chnage the sorting direction
+Products can be viewed across a number of dimensions - tapping the sort menu in the upper-left corner of the products view will bring up the sort options menu, and tapping the arrow immediately to the right will chnage the sorting direction
 
 <center> <img src="/Graphics/Inventory-Products-SortMenu.png" width="310" height="552" /></center><br>
 
 ### The Barcode Scanner & Product Detail Entry
 
-In order to use the barcde scanner built in to Inventory, you must give permission for the Inventry app to access the iOS device's camera:
+In order to use the barcode scanner built in to Inventory, you must give permission for the Inventry app to access the iOS device's camera:
 
 <center> <img src="/Graphics/Inventory-Camera-Permissions.png" width="310" height="552" /></center>Camera Permission Request<br>
 
@@ -141,7 +145,7 @@ The main products view also supports a search bar that will allow search to be d
       - A product name
       - A product description
       - A product image
-      -creation and modificaito dates
+      -creation and modification dates
 
 ### Transaction Model
 
@@ -149,7 +153,7 @@ The main products view also supports a search bar that will allow search to be d
   - A product ID
   - An amount added to (positive numbers) or removed (negative numbers) from our inventory as well as the ID of which user performed the transaction.
   - A user ID indicating who performed the transaction
-  - A date to record when this transaciton occurred
+  - A date to record when this transaction occurred
 
 ## Person Model
 
@@ -158,9 +162,9 @@ The main products view also supports a search bar that will allow search to be d
 
 ### Tracking Additions and Subtractions From Inventory
 
-One of the interesting aspects of a mobile application is the fact it -- to be truly useful -- needs to work both online _and_ offline.  Our inventory application as an additional constraint: it needs to suport changing quantities inside the application in a consistent and mathematically correct way regardless of how many users are acceessing or updating the items.
+One of the interesting aspects of a mobile application is the fact it -- to be truly useful -- needs to work both online _and_ offline.  Our inventory application as an additional constraint: it needs to support changing quantities inside the application in a consistent and mathematically correct way regardless of how many users are accessing or updating the items.
 
-While this may seem self-evident, supporting artithmetical atomicity is tricky.  Realm suports 2 different ways of ensuring that transacitons (additions or subtractions) from inventories: Lists and Counters.
+While this may seem self-evident, supporting arithmetical atomicity is tricky.  Realm supports 2 different ways of ensuring that transactions (additions or subtractions) from inventories: Lists and Counters.
 
 #### Method 1: Lists
 
@@ -171,7 +175,7 @@ Let's look at a transaction log for a few hypothetical products:
 
 Here we see there several products - (product ID's 1,2 3 and 5) each with several additions or removals (sales)  from the inventory.
 
-If we highlght just the acivity for product 1, we can see quickly where this goes - adding up the amounts of all the transactions tells use the current quanrtity on-hand of product #1.  This is a very safe way to implement a tranction safe counting system.  It also has the ability to allow us to create a rich system where we can add more color (metadata) to our inventory system (like the ID of who sold what, what store or region did gets credit for a sale, etc).
+If we highlight just the activity for product 1, we can see quickly where this goes - adding up the amounts of all the transactions tells use the current quantity on-hand of product #1.  This is a very safe way to implement a transaction safe counting system.  It also has the ability to allow us to create a rich system where we can add more color (metadata) to our inventory system (like the ID of who sold what, what store or region did gets credit for a sale, etc).
 <center> <img src="/Graphics/Inventory-Transaction-log-highlighted.png"/></center><br>
 
 Of course this does require a lot more storage and a more interaction with the server. Another way to implement the same functionality is with transaction safe counters.
@@ -181,3 +185,11 @@ TBS: Describe Realm Counters here...
 
 ### Conclusion
 TBD: describe how using counters _and_ lists enable a traditional double-entry accounting system that can be used for more than just simple inventory tracking...
+
+
+# Application Architecture
+  @TODO: __Describe the models, etc__
+
+# Realm Object Server Features
+
+ @TODO: __Describe specific ROS features this app uses__
