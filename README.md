@@ -149,27 +149,6 @@ The counter and button will indicate the number to be added or subtracted, press
 
 # Application Architecture
 
-## Product Model
-
-  - Product - This model is a minimal view of a product - it has:
-      - an ID - which in our case we are using the UPC barcode number - it could be anything but using the UPC jives nicely with the bar code scanning capability
-      - A product name
-      - A product description
-      - A product image
-      -creation and modification dates
-
-### Transaction Model
-
-  - Transactions are very simple, the contain:
-  - A product ID
-  - An amount added to (positive numbers) or removed (negative numbers) from our inventory as well as the ID of which user performed the transaction.
-  - A user ID indicating who performed the transaction
-  - A date to record when this transaction occurred
-
-## Person Model
-
-  - Person - this is a simple model that maintains an avatar image, and name info for all users.  It's primary use is to allow us to have a more rich display of who performed what transactions on our products which will be added to future branches of this demo application.
-
 
 ### Tracking Additions and Subtractions From Inventory
 
@@ -193,7 +172,7 @@ If we highlight just the activity for product 1, we can see quickly where this g
 
 This method will be described in the next update to this demo.
 
-# Application Architecture
+# Models
 The Inventory app consists of two basic models - a *Product*:
 ``` swift
 class Product : Object {
