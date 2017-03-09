@@ -226,7 +226,7 @@ func quantityOnHandUsingMapReduce() -> Int {
     return transactions.reduce(0, +) // now sum them to get the QoH
 }
 ```
-This is a perfectly valid way to do these kinds of aggregated calculation, but a better way uses [Realm's built-in aggregation functions](https://realm.io/docs/swift/latest/api/Classes/AnyRealmCollection.html#/s:FC10RealmSwift18AnyRealmCollection3sumuRd__S_11AddableTyperFT10ofPropertySS_qd__) to do math for us:
+This is a perfectly valid way to do these kinds of aggregated calculations, but a better way uses [Realm's built-in aggregation functions](https://realm.io/docs/swift/latest/api/Classes/AnyRealmCollection.html#/s:FC10RealmSwift18AnyRealmCollection3sumuRd__S_11AddableTyperFT10ofPropertySS_qd__) to do math for us:
 
 ```swift
 func quantityOnHand() -> Int {
