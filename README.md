@@ -168,6 +168,9 @@ Here we see there several products - (product ID's 1,2 3 and 5) each with severa
 If we highlight just the activity for product 1, we can see quickly where this goes - adding up the amounts of all the transactions tells use the current quantity on-hand of product #1.  This is a very safe way to implement a transaction safe counting system.  It also has the ability to allow us to create a rich system where we can add more color (metadata) to our inventory system (like the ID of who sold what, what store or region did gets credit for a sale, etc).
 <center> <img src="/Graphics/Inventory-Transaction-log-highlighted.png"/></center><br>
 
+Which comes down to:   100+(-8)+(-20)+10+(-50)+(-15)  or a total of 17 on hand.
+
+
 #### Method 2: Counters
 
 This method will be described in the next update to this demo.
