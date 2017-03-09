@@ -197,7 +197,6 @@ class Product : Object {
 ...and a *Transaction*:
 
 ```swift
-
 class Transaction : Object {
     dynamic var id = NSUUID().uuidString    // every transaction is unique but the person doing it, the products and amounts, of course are not
     dynamic var transactionDate: Date?
@@ -216,7 +215,18 @@ The Product class is a minimalistic, idealized implementation of what a product 
 
 1. We use a Realm list property to be able to find all of the transactions (sales, and inventory replenishments) that are booked against this product, and
 
-2.  The "amount" property is not actually stored in the Realm itself but is a synthesized property whose getter uses a class method that uses [Realm's aggregation functions](https://realm.io/docs/swift/latest/api/Classes/AnyRealmCollection.html#/s:FC10RealmSwift18AnyRealmCollection3sumuRd__S_11AddableTyperFT10ofPropertySS_qd__) to do math for us:
+2.  The "amount" property is not actually stored in the Realm itself but is a synthesized property whose getter uses a class method to get the current quantity on hand for a given product.
+
+Interestingly there a number of ways you could do this.  For example, you could get a list of all of the transactions registered against a product, use Swift's `map` function to extract the transaction amounts and then sum the up using reduce:
+
+```swift
+func quantityOnHandUsingMapReduce() -> Int {
+    let realm = try! Realm()
+    let transactions = realm.objects(Transaction.self).filter("productId = %@", self.id).map{$0.amount} // get all the amounts for the product as an array
+    return transactions.reduce(0, +) // now sum them to get the QoH
+}
+```
+This is a perfectly valid way to do these kinds of aggregated calculation, but a better way uses [Realm's built-in aggregation functions](https://realm.io/docs/swift/latest/api/Classes/AnyRealmCollection.html#/s:FC10RealmSwift18AnyRealmCollection3sumuRd__S_11AddableTyperFT10ofPropertySS_qd__) to do math for us:
 
 ```swift
 func quantityOnHand() -> Int {
@@ -226,8 +236,9 @@ func quantityOnHand() -> Int {
 }
 ```
 
-The result of the use of the transaction list and the synthesis of the amount on hand using [Realm's aggregation functions](https://realm.io/docs/swift/latest/api/Classes/AnyRealmCollection.html#/s:FC10RealmSwift18AnyRealmCollection3sumuRd__S_11AddableTyperFT10ofPropertySS_qd__) enables multiple users to use an app like _Inventory_ and not worry about collisions or math errors.
-Of course one can add any number of multi-user safe such operations. The implementation file here includes a `quantitySold()` function and the prototypes for functions to determine quantities sold across date ranges as well.
+The result of the use of the transaction list and the synthesis of the amount on hand using [Realm's aggregation functions](https://realm.io/docs/swift/latest/api/Classes/AnyRealmCollection.html#/s:FC10RealmSwift18AnyRealmCollection3sumuRd__S_11AddableTyperFT10ofPropertySS_qd__) enables multiple users to use an app like _Inventory_ and not worry about collisions or math errors and is very efficient.
+
+For this small demo app we've implemented just add/subtract from the product count, but of course one can add any number of multi-user safe such operations. The implementation file here includes a `quantitySold()` function and the prototypes for functions to determine quantities sold across date ranges as well.
 
 
 
