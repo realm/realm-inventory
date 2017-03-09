@@ -220,7 +220,7 @@ The Product class is a minimalistic, idealized implementation of what a product 
 
 2.  The "amount" property is not actually stored in the Realm itself but is a synthesized property whose getter uses a class method to get the current quantity on hand for a given product.
 
-Interestingly there a number of ways you could do this.  For example, you could get a list of all of the transactions registered against a product, use Swift's `map` function to extract the transaction amounts and then sum the up using reduce:
+Interestingly there a number of ways you could do this.  For example, you could get a list of all of the transactions registered against a product, use Swift's `map` function to extract the transaction amounts and then sum the up using `reduce`:
 
 ```swift
 func quantityOnHandUsingMapReduce() -> Int {
