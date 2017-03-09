@@ -20,7 +20,6 @@
 		8B8DB1461E5FE2E600D4AE0C /* InventoryLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8DB1451E5FE2E600D4AE0C /* InventoryLoginViewController.swift */; };
 		8B8DB1481E5FE4D000D4AE0C /* RealmUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8DB1471E5FE4D000D4AE0C /* RealmUtils.swift */; };
 		8B8DB14A1E5FE5BB00D4AE0C /* InventoryModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8DB1491E5FE5BB00D4AE0C /* InventoryModels.swift */; };
-		8B9428751E6A898A00C4AF60 /* SearchRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B9428741E6A898A00C4AF60 /* SearchRow.swift */; };
 		8B97E7DA1E61400400FDDCCA /* UserProfileTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B97E7D91E61400400FDDCCA /* UserProfileTableViewController.swift */; };
 		8B97E7DC1E61E8FB00FDDCCA /* UIDevice+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B97E7DB1E61E8FB00FDDCCA /* UIDevice+Extensions.swift */; };
 		8BC50C3D1E60F86700897FB6 /* ProductTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BC50C3C1E60F86700897FB6 /* ProductTableCell.swift */; };
@@ -71,7 +70,6 @@
 		8B8DB1451E5FE2E600D4AE0C /* InventoryLoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryLoginViewController.swift; sourceTree = "<group>"; };
 		8B8DB1471E5FE4D000D4AE0C /* RealmUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmUtils.swift; sourceTree = "<group>"; };
 		8B8DB1491E5FE5BB00D4AE0C /* InventoryModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InventoryModels.swift; sourceTree = "<group>"; };
-		8B9428741E6A898A00C4AF60 /* SearchRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchRow.swift; sourceTree = "<group>"; };
 		8B97E7D91E61400400FDDCCA /* UserProfileTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserProfileTableViewController.swift; sourceTree = "<group>"; };
 		8B97E7DB1E61E8FB00FDDCCA /* UIDevice+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIDevice+Extensions.swift"; sourceTree = "<group>"; };
 		8BC50C3C1E60F86700897FB6 /* ProductTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductTableCell.swift; sourceTree = "<group>"; };
@@ -144,7 +142,6 @@
 				8B2984311E5E8837005C443E /* LaunchScreen.storyboard */,
 				8B29842C1E5E8837005C443E /* Main.storyboard */,
 				8B37FE1A1E60EDBD00D3B9D4 /* ProductDetailViewController.swift */,
-				8B9428741E6A898A00C4AF60 /* SearchRow.swift */,
 				8B29842A1E5E8837005C443E /* ProductsTableViewController.swift */,
 				8BC50C3C1E60F86700897FB6 /* ProductTableCell.swift */,
 				8B8DB1471E5FE4D000D4AE0C /* RealmUtils.swift */,
@@ -483,7 +480,6 @@
 				8B37FE1D1E60EDBD00D3B9D4 /* SortOptionsTableViewController.swift in Sources */,
 				8BC50C3D1E60F86700897FB6 /* ProductTableCell.swift in Sources */,
 				8B8DB1481E5FE4D000D4AE0C /* RealmUtils.swift in Sources */,
-				8B9428751E6A898A00C4AF60 /* SearchRow.swift in Sources */,
 				8B8DB14A1E5FE5BB00D4AE0C /* InventoryModels.swift in Sources */,
 				8B2984291E5E8837005C443E /* AppDelegate.swift in Sources */,
 				8B97E7DC1E61E8FB00FDDCCA /* UIDevice+Extensions.swift in Sources */,

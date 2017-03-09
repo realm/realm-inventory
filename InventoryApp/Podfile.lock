@@ -1,6 +1,6 @@
 PODS:
   - BarcodeScanner (2.0.0)
-  - BRYXBanner (0.7.1)
+  - BRYXBanner (0.7.2)
   - Eureka (2.0.1)
   - ImagePicker (2.0.0)
   - ImageRow (1.0.0):
@@ -9,7 +9,7 @@ PODS:
   - Realm (2.4.3):
     - Realm/Headers (= 2.4.3)
   - Realm/Headers (2.4.3)
-  - RealmLoginKit (0.0.10):
+  - RealmLoginKit (0.0.11):
     - Realm
     - TORoundedTableView
   - RealmSwift (2.4.3):
@@ -37,13 +37,13 @@ CHECKOUT OPTIONS:
 
 SPEC CHECKSUMS:
   BarcodeScanner: 266ab4b479d407b74bc4b473fa5020b4523ad9e3
-  BRYXBanner: 34eabf9c6c009f187948ca78a4f3bba3767d0f04
+  BRYXBanner: ed407a56c53f2add0aaa16f810062eac48d802cf
   Eureka: ae837bb1dfae0c07bc1bda7aeef87876eeb537c2
   ImagePicker: 81175d36c2852cb543cb4f5d6c19e28f3e8d90eb
   ImageRow: 1e37db26f61a0c4ad3bc9a3a803c32d968782857
   PermissionScope: a30c16e015779ba27c97c124e7539e27b5829de2
   Realm: e08d60b0048ccccd3949c8c28a92c4db5712d7e9
-  RealmLoginKit: c63d8049ea8e227332d2cddd6b545c5800c1c79a
+  RealmLoginKit: 3a1b3614e43e1b8553d032fcdfbe2f1280d0860c
   RealmSwift: 30d49739ccb3385d201242736ca4dda56aec9dfc
   TORoundedTableView: 4155565233135d81d6626a0c4ecfba27991cf2b1
 
