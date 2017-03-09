@@ -186,13 +186,13 @@ class Transaction : Object {
     dynamic var id = NSUUID().uuidString    // every transaction is unique but the person doing it, the products and amounts, of course are not
     dynamic var transactionDate: Date?
     dynamic var transactedBy = ""           // a Realm SyncUser.identity
-    dynamic var productId = ""              // the product this referes to
+    dynamic var productId = ""              // the product this refers to
     dynamic var amount = 0                  // positive = inventory addition, negative == sale or inventory reduction
     
     // Initializers, accessors & cet.
     override static func primaryKey() -> String? {
         return "id"
     }
-    
-    
 }
+
+
