@@ -241,10 +241,10 @@ func quantityOnHand() -> Int {
 
 The result of the use of the transaction list and the synthesis of the amount on hand using [Realm's aggregation functions](https://realm.io/docs/swift/latest/api/Classes/AnyRealmCollection.html#/s:FC10RealmSwift18AnyRealmCollection3sumuRd__S_11AddableTyperFT10ofPropertySS_qd__) enables multiple users to use an app like _Inventory_ and not worry about collisions or math errors and is very efficient.
 
-For this small demo app we've implemented just add/subtract from the product count, but of course one can add any number of such multi-user safe operations. The implementation file here includes a `quantitySold()` function and the prototypes for functions to determine quantities sold across date ranges as well.
+For this small demo app we've implemented just add/subtract from the product count, but of course one can add any number of such multi-user safe operations. The implementation file here includes a `quantitySold()` function and the suggested outlines  for functions to determine quantities sold across date ranges as well.
 
 
 
 # License
 
- The Realm Inventory is distributed under the terms of the  [MIT License](https://en.wikipedia.org/wiki/MIT_License)
+ The Realm Inventory is distributed under the terms of the  [Apache License](LICENSE)
