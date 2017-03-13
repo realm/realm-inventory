@@ -1,6 +1,8 @@
 # Inventory
 ## A Realm Mobile Platform Example Application
 
+<center> <img src="/Graphics/Inventory-Loop.gif" width="310" height="552" /></center><br>
+
 
 ## Intro
 
