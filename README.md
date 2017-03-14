@@ -54,7 +54,7 @@ Once you have created or selected an admin user to use, you can proceed with com
 
 ## Compiling & Running the Application
 
-Before attempting to compile the project, install all of its dependencies using Cocoapods by invoking ``pod install``. This is done by opening a Terminal window and changing to the directory where you downloaded the Fieldwork repository. In this main directory is a Folder called `IventoryApp` that contains `Podfile` needed by `CocoaPods` as well as the application sources.
+Before attempting to compile the project, install all of its dependencies using Cocoapods by invoking ``pod install``. This is done by opening a Terminal window and changing to the directory where you downloaded the Fieldwork repository. In this main directory is a Folder called `InventoryApp` that contains `Podfile` needed by `CocoaPods` as well as the application sources.
 
 
 This process will create a ``Pods`` directory which contains all of the compiled resources needed by the app, along with an Xcode xcworkspace file which you will open and work with instead
