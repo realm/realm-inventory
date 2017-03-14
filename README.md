@@ -246,6 +246,11 @@ The result of the use of the transaction list and the synthesis of the amount on
 For this small demo app we've implemented just add/subtract from the product count, but of course one can add any number of such multi-user safe operations. The implementation file here includes a `quantitySold()` function and the suggested outlines  for functions to determine quantities sold across date ranges as well.
 
 
+# Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for more details!
+
+This project adheres to the [Contributor Covenant Code of Conduct](https://realm.io/conduct/). By participating, you are expected to uphold this code. Please report unacceptable behavior to [info@realm.io](mailto:info@realm.io).
 
 # License
 
