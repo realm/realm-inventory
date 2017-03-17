@@ -1,5 +1,4 @@
-# Inventory
-<center> <img src="/Graphics/Icon-App-512x512@1x.png" width="256" height="256" /></center><br>
+# Inventory<center> <img src="/Graphics/Icon-App-512x512@1x.png" width="256" height="256" /><H1></H1></center><br>
 
 ## A Realm Mobile Platform Example Application
 
@@ -18,7 +17,7 @@ This app uses [Cocoapods](https://www.cocoapods.org) to set up the project's 3rd
 
 ### Realm Mobile Platform
 
-This application demonstrates features of the [Realm Mobile Platform](http://lrealm.io) and needs to have a working instance of the Realm Object Server available to make tasks, and other data available between instances of the Fieldwork app. The Realm Mobile Platform can be downloaded from [Realm Mobile Platform](http://realm.io) and exists in two forms, a ready-to-run macOS version of the server, and a Linux version that runs on RHEL/CentOS versions 6/7 and Ubuntu as well as several Amazon AMIs and Digital Ocean Droplets. The macOS version can be run with the Fieldwork right out of the box; the Linux version will require access to a Linux server.
+This application demonstrates features of the [Realm Mobile Platform](http://lrealm.io) and needs to have a working instance of the Realm Object Server available to make tasks, and other data available between instances of the Inventory app. The Realm Mobile Platform can be downloaded from [Realm Mobile Platform](http://realm.io) and exists in two forms, a ready-to-run macOS version of the server, and a Linux version that runs on RHEL/CentOS versions 6/7 and Ubuntu as well as several Amazon AMIs and Digital Ocean Droplets. The macOS version can be run with Inventory right out of the box; the Linux version will require access to a Linux server.
 
 
 ### 3rd Party Modules
@@ -52,13 +51,13 @@ You can set the admin rights for existing users by clicking-through to the user'
 ![ROS Dashboard User Listing](/Graphics/ROS-User-Detail.png)
 
 
-Once you have created or selected an admin user to use, you can proceed with compiling and running Fieldwork.
+Once you have created or selected an admin user to use, you can proceed with compiling and running Inventory.
 
 
 
 ## Compiling & Running the Application
 
-Before attempting to compile the project, install all of its dependencies using Cocoapods by invoking ``pod install``. This is done by opening a Terminal window and changing to the directory where you downloaded the Fieldwork repository. In this main directory is a Folder called `InventoryApp` that contains `Podfile` needed by `CocoaPods` as well as the application sources.
+Before attempting to compile the project, install all of its dependencies using Cocoapods by invoking ``pod install``. This is done by opening a Terminal window and changing to the directory where you downloaded the Inventory repository. In this main directory is a Folder called `InventoryApp` that contains `Podfile` needed by `CocoaPods` as well as the application sources.
 
 
 This process will create a ``Pods`` directory which contains all of the compiled resources needed by the app, along with an Xcode xcworkspace file which you will open and work with instead
