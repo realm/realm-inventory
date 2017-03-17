@@ -33,6 +33,8 @@ The following modules will be installed as part of the Cocoapods setup:
 
 - [ImagePicker](https://github.com/hyperoslo/ImagePicker.git) for selection of photo library images by Hyper.no
 
+- [ImageRow](https://github.com/EurekaCommunity/ImageRow) an image row component for the Eureka formbuilder
+
 - [PermissionScope](https://github.com/nickoneill/PermissionScope.git) permission management dialog by Nick O'Neill
 
 ## Preparing the Realm Object Server
