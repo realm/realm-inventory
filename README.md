@@ -175,7 +175,8 @@ Which comes down to:   100+(-8)+(-20)+10+(-50)+(-15)  or a total of 17 on hand.
 
 #### Method 2: Counters
 
-This method will be described in the next update to this demo.
+
+Realm also supports access safe counters - This method will be described in the next update to this demo.
 
 # Models
 The Inventory app consists of two basic models - a *Product*:
