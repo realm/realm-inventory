@@ -1,4 +1,6 @@
 # Inventory
+<center> <img src="/Graphics/Icon-App-512x512@1x.png" width="256" height="256" /></center><br>
+
 ## A Realm Mobile Platform Example Application
 
 <center> <img src="/Graphics/Inventory-Loop.gif" width="310" height="552" /></center><br>
