@@ -6,7 +6,7 @@ target 'Inventory' do
   use_frameworks!
 
   # Pods for Inventory
-pod 'RealmSwift'
+pod 'RealmSwift', '3.0.0-rc.1'
 pod 'RealmLoginKit'
 
 pod 'Eureka', '~> 2.0.0-beta.1'

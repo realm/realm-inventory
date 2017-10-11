@@ -15,8 +15,6 @@
 // limitations under the License.
 //
 ////////////////////////////////////////////////////////////////////////////
-
-
 import UIKit
 import QuartzCore
 
@@ -32,16 +30,13 @@ class UserProfileViewController: FormViewController {
     let realm = try! Realm()
     let pscope = PermissionScope()
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        thePersonRecord = realm.objects(Person.self).filter(NSPredicate(format: "id = %@", myIdentity!)).first
-        
+        thePersonRecord = realm.object(ofType: Person.self, forPrimaryKey: myIdentity!)
+
         form +++ Section(NSLocalizedString("Profile Information", comment: "Profile Information"))
             <<< ImageRow() { row in
-                
                 row.title = NSLocalizedString("Profile Image", comment: "profile image")
                 row.sourceTypes = [.PhotoLibrary, .SavedPhotosAlbum, .Camera]
                 row.clearAction = .yes(style: UIAlertActionStyle.destructive)
@@ -73,12 +68,7 @@ class UserProfileViewController: FormViewController {
                 }
                 }.onChange({ (row) in
                     try! self.realm.write {
-                        if row.value != nil {
-                            self.thePersonRecord!.firstName = row.value!
-                            
-                        } else {
-                            self.thePersonRecord!.firstName = ""
-                        }
+                        self.thePersonRecord!.firstName = row.value ?? ""
                     }
                 })
             <<< TextRow(){ row in
@@ -87,13 +77,9 @@ class UserProfileViewController: FormViewController {
                 if self.thePersonRecord!.lastName != "" {
                     row.value = self.thePersonRecord!.lastName
                 }
-                }.onChange({ (row) in
+                }.onChange({ row in
                     try! self.realm.write {
-                        if row.value != nil {
-                            self.thePersonRecord!.lastName = row.value!
-                        } else {
-                            self.thePersonRecord!.lastName = ""
-                        }
+                        self.thePersonRecord!.lastName = row.value ?? ""
                     }
                 })
 
@@ -111,21 +97,8 @@ class UserProfileViewController: FormViewController {
         pscope.headerLabel.text = NSLocalizedString("Permissions", comment: "Inventoruy Permissions")
         pscope.addPermission(CameraPermission(), message: NSLocalizedString("Used to add/edit your profile image", comment:"camera perms text"))
         pscope.addPermission(PhotosPermission(), message: NSLocalizedString("Used to pick a profile image", comment:"photo perms text"))
+    }
 
-    }
-    
-    
-    override func viewDidAppear(_ animated: Bool) {
-    }
-    
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
-    
     /*
      // MARK: - Navigation
      
@@ -159,9 +132,5 @@ class UserProfileViewController: FormViewController {
         
         // Present Dialog message
         present(alert, animated: true, completion:nil)
-        
     }
-        
-
-    
 }

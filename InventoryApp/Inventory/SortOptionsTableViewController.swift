@@ -35,19 +35,11 @@ class SortOptionsTableViewController: UITableViewController {
     let cellIdentifier = "SortOptionsCell"
     var currentlySelectedSortOption = "productName" // start out with name
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         // the sort option may have chanvges since last we were here... so check to see of the caller has set is
         if currentlySelectedSortOption.isEmpty {
             currentlySelectedSortOption = "productName"
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
     // MARK: - Table view data source
@@ -78,5 +70,4 @@ class SortOptionsTableViewController: UITableViewController {
         delegate?.didChangeSortOptions(sortTitle: theOption.values.first!, sortProperty: theOption.keys.first!)
         self.dismiss(animated: true, completion: nil)
     }
-    
 }

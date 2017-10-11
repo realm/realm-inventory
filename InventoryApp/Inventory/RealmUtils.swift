@@ -41,7 +41,7 @@ func syncAuthURL(hostName: String) -> URL {
 
 func setDefaultRealmConfigurationWithUser(user: SyncUser, hostname: String) {
     Realm.Configuration.defaultConfiguration = Realm.Configuration(
-        syncConfiguration: SyncConfiguration(user: user, realmURL:syncServerURL(hostname: hostname) ),
+        syncConfiguration: SyncConfiguration(user: user, realmURL: syncServerURL(hostname: hostname)),
         objectTypes: [Product.self, Transaction.self, Person.self]
     )
 }

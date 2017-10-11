@@ -15,26 +15,22 @@
 // limitations under the License.
 //
 ////////////////////////////////////////////////////////////////////////////
-import Foundation
+
 import UIKit
 import Eureka
 import ImageRow
 import RealmSwift
 import BRYXBanner
 
-
-
-
 class ProductDetailViewController: FormViewController {
-    
     let realm = try! Realm()
-    var token : NotificationToken?
+    var token: NotificationToken?
     
     var newProductMode = false
     var editMode = false
     var processingObjectUpdate = false
     var productId : String?
-    var product: Product?
+    var product: Product!
     var quantityTmp = 0
     
     override func viewDidLoad() {
@@ -49,28 +45,24 @@ class ProductDetailViewController: FormViewController {
             
             product = Product()
             if productId != nil {
-                product?.id = productId!
+                product.id = productId!
             }
         }
         else {
-            product = realm.objects(Product.self).filter("id = %@", productId!).first
+            product = realm.object(ofType: Product.self, forPrimaryKey: productId!)
             let rightButton = UIBarButtonItem(title: NSLocalizedString("Edit", comment: "Edit"), style: .plain, target: self, action: #selector(EditTaskPressed))
             self.navigationItem.rightBarButtonItem = rightButton
         } // else in new versus existing product check
         
-        
-        
         // Do any additional setup after loading the view.
         form = createForm(editable: formIsEditable(), product: product)
-        
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         // Lastly, if this is an existing product, let's listen for changes on it;
         // should be done after the form is created
         if newProductMode == false {
-            self.token = product?.addNotificationBlock { change in
+            self.token = product?.observe { change in
                 switch change {
                 case .change(let properties):
                     for property in properties {
@@ -79,24 +71,19 @@ class ProductDetailViewController: FormViewController {
                             let row = self.form.rowBy(tag: "productName") as! TextRow
                             self.processingObjectUpdate = true
                             row.updateCell()
-                            break
                         case "productDescription":
                             let row = self.form.rowBy(tag: "productDescription") as! TextRow
                             self.processingObjectUpdate = true
                             row.updateCell()
-                            break
                         case "image":
                             let row = self.form.rowBy(tag: "image") as! ImageRow
                             self.processingObjectUpdate = true
                             row.updateCell()
-                            break
                         case "transactions":
                             let row = self.form.rowBy(tag: "QuantityOnHandRow") as! IntRow
                             self.processingObjectUpdate = true
                             row.updateCell()
-                            break
-                        default:
-                            break
+                        default: break
                         }
                 } // of properties loop
                 case .error(let error):
@@ -110,19 +97,13 @@ class ProductDetailViewController: FormViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         if self.token != nil {
-            self.token?.stop()
+            self.token?.invalidate()
             self.token = nil
         }
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    
+
     // MARK: Form Utilities
     func createForm(editable: Bool, product: Product?) -> Form {
-        
         let form = Form()
         form +++ Section(NSLocalizedString("Product Detail Information", comment: "Product Detail Information"))
             <<< TextRow(NSLocalizedString("Product ID", comment:"Product ID")) { row in
@@ -213,11 +194,7 @@ class ProductDetailViewController: FormViewController {
                 .onChange({ (row) in
                     let rlm = try! Realm()
                     try! rlm.write {
-                        if row.value != nil {
-                            self.product?.productDescription = row.value!
-                        } else {
-                            self.product?.productDescription = ""
-                        }
+                        self.product?.productDescription = row.value ?? ""
                         rlm.add(self.product!, update: true)
                     }
                 })

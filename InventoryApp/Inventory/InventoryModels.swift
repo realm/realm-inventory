@@ -17,39 +17,32 @@
 //////////////////////////////////////////////////////////////////////////////
 
 import Foundation
-import Realm
 import RealmSwift
 
-
-private var realm: Realm!
-
-class Person : Object {
+class Person: Object {
     dynamic var id = ""
     dynamic var creationDate: Date?
     dynamic var lastName = ""
     dynamic var firstName = ""
-    dynamic var avatar : Data? // binary image data, stored as a PNG
-
+    dynamic var avatar: Data? // binary image data, stored as a PNG
 
     override static func primaryKey() -> String? {
         return "id"
     }
 
-    
     func fullName() -> String {
         return "\(firstName) \(lastName)"
     }
-
 }
 
 
-class Product : Object {
+class Product: Object {
     dynamic var id = ""                 // this should be something that's universal, like a UPC
     dynamic var creationDate: Date?
     dynamic var lastUpdated: Date?
     dynamic var productName = ""
     dynamic var productDescription = ""
-    dynamic var image : Data? // binary image data, stored as a PNG
+    dynamic var image: Data? // binary image data, stored as a PNG
     var amount: Int {
         get {
             return self.quantityOnHand()
@@ -60,16 +53,11 @@ class Product : Object {
     // To find out the number of units on hand a sum of the list values is performed
     // conversely to find out the amount "sold" the absolute value of the sum of the negative
     // entries is returned
-    
     let transactions = List<Transaction>()
+
     // Initializers, accessors & cet.
     override static func primaryKey() -> String? {
         return "id"
-    }
-    
-    
-    override static func ignoredProperties() -> [String] {
-        return ["amount"]
     }
 
     /*
@@ -105,36 +93,28 @@ class Product : Object {
         return transactions.sum(ofProperty: "amount")
     }
     
-    
-
     func addTransaction(quantity: Int, userIdentity: String) {
-        let rlm = try! Realm()
-        try! rlm.write {
-            if quantity != 0 {
+        if quantity != 0 {
+            try! self.realm!.write {
                 let now = Date()
                 let transaction = Transaction()
                 transaction.transactionDate = now
                 transaction.transactedBy = userIdentity
                 transaction.productId = self.id
                 transaction.amount = quantity
-                rlm.add(transaction, update: true)
-                
+
                 self.lastUpdated = now
                 self.transactions.append(transaction)
-                rlm.add(self, update: true)
             }
-            
         }
-
     }
-    
-    // this is used to allow us to know if we should allow editing of the main quant 
+
+    // this is used to allow us to know if we should allow editing of the main quant
     // on hand item in the product edit view. If there is an existing history adding 
     // the number if skew the counts, so don't allow if it transactions have already 
     // started on this product
-        func hasTransactionHistory() -> Bool {
-        let realm = try! Realm()
-        return realm.objects(Transaction.self).filter("productId = %@", self.id).count > 0
+    func hasTransactionHistory() -> Bool {
+        return self.realm!.objects(Transaction.self).filter("productId = %@", self.id).count > 0
     }
 
     
@@ -145,7 +125,7 @@ class Product : Object {
      * @returns The return value is an array of dictionaries representing the values for each date in the range.
      */
     func quantitySold(between startDate: Date, endDate: Date?) -> Array<Dictionary<Date, Int>>? {
-        var rv = Array<Dictionary<Date, Int>>()
+        let rv = Array<Dictionary<Date, Int>>()
 //        let realm = try! Realm()
 //        var actualEndDate = Date()
 //        var actualStartDate = startDate
@@ -192,7 +172,7 @@ class Product : Object {
 
 
 
-class Transaction : Object {
+class Transaction: Object {
     dynamic var id = NSUUID().uuidString    // every transaction is unique but the person doing it, the products and amounts, of course are not
     dynamic var transactionDate: Date?
     dynamic var transactedBy = ""           // a Realm SyncUser.identity
