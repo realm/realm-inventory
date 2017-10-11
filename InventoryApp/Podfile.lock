@@ -1,26 +1,30 @@
 PODS:
-  - BarcodeScanner (2.0.0)
-  - BRYXBanner (0.7.2)
+  - BarcodeScanner (2.1.2)
+  - BRYXBanner (0.7.3)
   - Eureka (2.0.1)
   - ImagePicker (2.0.0)
   - ImageRow (1.0.0):
     - Eureka (~> 2.0.0-beta.1)
   - PermissionScope (1.1.1)
-  - Realm (2.4.3):
-    - Realm/Headers (= 2.4.3)
-  - Realm/Headers (2.4.3)
-  - RealmLoginKit (0.0.11):
+  - Realm (2.10.2):
+    - Realm/Headers (= 2.10.2)
+  - Realm/Headers (2.10.2)
+  - RealmLoginKit (0.1.2):
+    - Realm
+    - RealmLoginKit/Core (= 0.1.2)
+    - TORoundedTableView
+  - RealmLoginKit/Core (0.1.2):
     - Realm
     - TORoundedTableView
-  - RealmSwift (2.4.3):
-    - Realm (= 2.4.3)
-  - TORoundedTableView (0.0.3)
+  - RealmSwift (2.10.2):
+    - Realm (= 2.10.2)
+  - TORoundedTableView (0.1.3)
 
 DEPENDENCIES:
-  - BarcodeScanner
+  - BarcodeScanner (~> 2.1.2)
   - BRYXBanner (~> 0.7.1)
   - Eureka (~> 2.0.0-beta.1)
-  - ImagePicker
+  - ImagePicker (~> 2.0.0)
   - ImageRow (~> 1.0)
   - PermissionScope (from `https://github.com/nickoneill/PermissionScope.git`)
   - RealmLoginKit
@@ -32,21 +36,21 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   PermissionScope:
-    :commit: b2469e24bca52f14b3af6a19ac8d83abb0c29708
+    :commit: 2638819d22efda1c3a335004bd977de587843831
     :git: https://github.com/nickoneill/PermissionScope.git
 
 SPEC CHECKSUMS:
-  BarcodeScanner: 266ab4b479d407b74bc4b473fa5020b4523ad9e3
-  BRYXBanner: ed407a56c53f2add0aaa16f810062eac48d802cf
+  BarcodeScanner: 84b6e5c75b7efad823381ee9bde846b13171a009
+  BRYXBanner: bd26a91cb8a5826a8bc7687891043d287dd3ee53
   Eureka: ae837bb1dfae0c07bc1bda7aeef87876eeb537c2
   ImagePicker: 81175d36c2852cb543cb4f5d6c19e28f3e8d90eb
   ImageRow: 1e37db26f61a0c4ad3bc9a3a803c32d968782857
   PermissionScope: a30c16e015779ba27c97c124e7539e27b5829de2
-  Realm: e08d60b0048ccccd3949c8c28a92c4db5712d7e9
-  RealmLoginKit: 3a1b3614e43e1b8553d032fcdfbe2f1280d0860c
-  RealmSwift: 30d49739ccb3385d201242736ca4dda56aec9dfc
-  TORoundedTableView: 4155565233135d81d6626a0c4ecfba27991cf2b1
+  Realm: 0ef72b837fb67e9f4b098bac771ddd72c7fdbb69
+  RealmLoginKit: ee1dcad4f3535ef65f4fa0b8e53c045ce0e0774e
+  RealmSwift: 07a9ae0505091eda6b2ee7c190c3786d6e90a7b0
+  TORoundedTableView: cd1437ef81ab3888dea8c06d2dfe4795bcaac768
 
-PODFILE CHECKSUM: 51d5b15c0d3992e636a732e689aa363916ce231d
+PODFILE CHECKSUM: e39cebcaa912ecd40920567a140bae6fce481632
 
-COCOAPODS: 1.2.0
+COCOAPODS: 1.2.1

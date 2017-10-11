@@ -12,8 +12,8 @@ pod 'RealmLoginKit'
 pod 'Eureka', '~> 2.0.0-beta.1'
 pod 'ImageRow', '~> 1.0'
 pod 'PermissionScope', :git => 'https://github.com/nickoneill/PermissionScope.git'
-pod 'BarcodeScanner'
-pod 'ImagePicker'
+pod 'BarcodeScanner', '~> 2.1.2'
+pod 'ImagePicker', '~> 2.0.0'
 pod 'BRYXBanner', '~> 0.7.1'
 
 
