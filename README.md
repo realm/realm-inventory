@@ -17,7 +17,7 @@ This app uses [Cocoapods](https://www.cocoapods.org) to set up the project's 3rd
 
 ### Realm Mobile Platform
 
-This application demonstrates features of the [Realm Mobile Platform](http://lrealm.io) and needs to have a working instance of the Realm Object Server available to make tasks, and other data available between instances of the Inventory app. The Realm Mobile Platform can be downloaded from [Realm Mobile Platform](http://realm.io) and exists in two forms, a ready-to-run macOS version of the server, and a Linux version that runs on RHEL/CentOS versions 6/7 and Ubuntu as well as several Amazon AMIs and Digital Ocean Droplets. The macOS version can be run with Inventory right out of the box; the Linux version will require access to a Linux server.
+This application demonstrates features of the [Realm Mobile Platform](http://realm.io) and needs to have a working instance of the Realm Object Server available to make tasks, and other data available between instances of the Inventory app. The Realm Mobile Platform can be downloaded from [Realm Mobile Platform](http://realm.io) and exists in two forms, a ready-to-run macOS version of the server, and a Linux version that runs on RHEL/CentOS versions 6/7 and Ubuntu as well as several Amazon AMIs and Digital Ocean Droplets. The macOS version can be run with Inventory right out of the box; the Linux version will require access to a Linux server.
 
 
 ### 3rd Party Modules
